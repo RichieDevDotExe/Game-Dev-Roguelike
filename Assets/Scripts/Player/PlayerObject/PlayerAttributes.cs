@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerAttibutes : MonoBehaviour
 {
-	[Header("PLayer Stats")]
+	[Header("Player Stats")]
     [SerializeField]private float playerHealth;
 	[SerializeField]private float playerDamage;
 	[SerializeField]private float playerSpeed;
@@ -16,7 +16,6 @@ public class PlayerAttibutes : MonoBehaviour
 		get { return playerAttackRate; }
 		set { playerAttackRate = value; }
 	}
-
 
 	public float PlayerSpeed
 	{
@@ -36,7 +35,11 @@ public class PlayerAttibutes : MonoBehaviour
 		set { playerHealth = value; }
 	}
 
-
+	[ContextMenu("Take Damage")]
+	public void playerTakeDamage(float damage)
+	{
+		playerHealth -= damage;
+	}
 
 
 

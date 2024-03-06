@@ -9,7 +9,6 @@ public class PlayerMotor : MonoBehaviour
     private Vector3 playerVel;
     private Vector3 lookPos;
     private float speed;
-    private float gravity = -9.8f;
     
 
     // Start is called before the first frame update

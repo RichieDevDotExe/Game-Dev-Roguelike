@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.Rendering.DebugUI;
 
 public class Enemy : MonoBehaviour
 {
@@ -12,12 +13,18 @@ public class Enemy : MonoBehaviour
     [SerializeField]private float enemySpeed;
     [SerializeField]private float enemyDamage;
 
+    [Header("Attack")]
+    [SerializeField] private Transform hitbox;
+    [SerializeField] private Vector3 hitBoxSize;
+    [SerializeField] private LayerMask playerLayer; 
+    [SerializeField] private float enemyCooldown;
+
     [Header("Enemy Statemachine")]
     [SerializeField]private EnemyPath enemyPath;
     [SerializeField]private string currentState;
 
     [Header("Enemy Misc")]
-    [SerializeField] private Transform playerPos;
+    [SerializeField] private PlayerAttibutes player;
 
     private Rigidbody ridgeBody;
     private EnemyStateMachine stateMachine;
@@ -43,7 +50,6 @@ public class Enemy : MonoBehaviour
         {
             enemyDie();
         }
-
     }
 
     public float EnemyHealth
@@ -85,13 +91,29 @@ public class Enemy : MonoBehaviour
         enemySpeed = 40;
         //transform.Translate(move * enemySpeed * Time.deltaTime);
         agent.destination = playerloc;
+        return null;
     }
 
     [ContextMenu("Attack")]
     public void enemyAttack()
     {
-        float saveSpeed = enemySpeed;
-        enemySpeed = 0;
+        //float saveSpeed = enemySpeed;
+        //enemySpeed = 0;
+
+        Collider[] hitPlayer = Physics.OverlapBox(hitbox.position, hitBoxSize, hitbox.rotation, playerLayer);
+        Debug.Log("enemy Hit");
+        foreach (Collider playerHit in hitPlayer)
+        {
+            Debug.Log("Player Hit");
+            player.playerTakeDamage(enemyDamage);
+        }
+        //Debug.Log("activate");
+        //Invoke("charge", 1.5f);
+        //enemySpeed = saveSpeed;
+        //transform.LookAt(playerPos);
+        //Debug.Log("attack done");
+
+
         //Debug.Log("activate");
         //IEnumerator charge()
         //{
@@ -102,14 +124,6 @@ public class Enemy : MonoBehaviour
         //StartCoroutine(charge());
         //transform.LookAt(playerPos);
         //Debug.Log("attack done");
-
-        Debug.Log("activate");
-        Invoke("charge", 1.5f);
-        enemySpeed = saveSpeed;
-        transform.LookAt(playerPos);
-        Debug.Log("attack done");
-
-
 
         //Debug.Log("activate");
         //enemySpeed = 0;
@@ -124,5 +138,14 @@ public class Enemy : MonoBehaviour
         //Debug.Log("charge");
 
         //ridgeBody.AddRelativeForce(transform.forward);
+    }
+    void OnDrawGizmosSelected()
+    {
+        if (hitbox == null)
+        {
+            return;
+        }
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(hitbox.position, hitBoxSize);
     }
 }
