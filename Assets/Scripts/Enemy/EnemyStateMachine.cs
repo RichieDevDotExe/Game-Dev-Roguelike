@@ -6,13 +6,11 @@ public class EnemyStateMachine : MonoBehaviour
 {
 
     public EnemyBaseState activeState;
-    public EnemyIdleState idleState;
     // Start is called before the first frame update
 
     public void Init()
     {
-        idleState = new EnemyIdleState();
-        ChangeState(idleState);
+        changeState(new EnemyIdleState());
     }
     void Start()
     {
@@ -29,7 +27,7 @@ public class EnemyStateMachine : MonoBehaviour
         
     }
 
-    public void ChangeState(EnemyBaseState nextState)
+    public void changeState(EnemyBaseState nextState)
     {
         if (activeState != null)
         {

@@ -6,7 +6,6 @@ public class PlayerMotor : MonoBehaviour
 {
 
     private CharacterController characterController;
-    private Vector3 playerVel;
     private Vector3 lookPos;
     private float speed;
     

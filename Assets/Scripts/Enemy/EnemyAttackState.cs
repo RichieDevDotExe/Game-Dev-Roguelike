@@ -6,16 +6,20 @@ public class EnemyAttackState : EnemyBaseState
 {
     public override void Enter()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("Attacking");
+        AttackingLogic();
     }
 
     public override void Exit()
     {
-        throw new System.NotImplementedException();
     }
 
     public override void Perform()
+    { 
+    }
+
+    private void AttackingLogic()
     {
-        throw new System.NotImplementedException();
+        Enemy.enemyAttack();
     }
 }

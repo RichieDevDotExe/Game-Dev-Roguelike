@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Rendering;
 using static UnityEngine.Rendering.DebugUI;
 
 public class Enemy : MonoBehaviour
@@ -12,12 +13,18 @@ public class Enemy : MonoBehaviour
     [SerializeField]private float enemyMaxHealth;
     [SerializeField]private float enemySpeed;
     [SerializeField]private float enemyDamage;
+    [SerializeField]private float enemyAttackRange;
+
+
+
 
     [Header("Attack")]
-    [SerializeField] private Transform hitbox;
-    [SerializeField] private Vector3 hitBoxSize;
-    [SerializeField] private LayerMask playerLayer; 
+    private BoxCollider hitbox;
+    [SerializeField] private float detectionRange;
+    [SerializeField] private float fieldOfView;
     [SerializeField] private float enemyCooldown;
+    [SerializeField] private float chargeStrength;
+    [SerializeField] private float maxSpeed;
 
     [Header("Enemy Statemachine")]
     [SerializeField]private EnemyPath enemyPath;
@@ -26,9 +33,9 @@ public class Enemy : MonoBehaviour
     [Header("Enemy Misc")]
     [SerializeField] private PlayerAttibutes player;
 
-    private Rigidbody ridgeBody;
     private EnemyStateMachine stateMachine;
     private NavMeshAgent agent;
+    private Rigidbody rb;
     public NavMeshAgent Agent { get => agent; }
     public EnemyPath EnemyPath { get => enemyPath; }
     //debugging
@@ -40,16 +47,18 @@ public class Enemy : MonoBehaviour
         stateMachine =  GetComponent<EnemyStateMachine>();
         agent = GetComponent<NavMeshAgent>();
         enemyPath = GetComponent<EnemyPath>();
-        ridgeBody = GetComponent<Rigidbody>();
+        hitbox = GetComponentInChildren<BoxCollider>();
+        rb = GetComponent<Rigidbody>(); 
         stateMachine.Init();
     }
 
     private void Update()
     {
-        if(enemyHealth <= 0)
+        if (enemyHealth <= 0)
         {
             enemyDie();
         }
+        agent.speed = enemySpeed;
     }
 
     public float EnemyHealth
@@ -72,6 +81,17 @@ public class Enemy : MonoBehaviour
         get { return enemyDamage; }
         set { enemyDamage = value; }
     }
+    public float EnemyAttackRange
+    {
+        get { return enemyAttackRange; }
+        set { enemyAttackRange = value; }
+    }
+
+    public PlayerAttibutes EnemyTarget
+    {
+        get { return player; }
+        set { player = value; }
+    }
 
     public void enemyTakeDamage(float damage)
     {
@@ -85,67 +105,77 @@ public class Enemy : MonoBehaviour
 
     //enemy attack will be different for every single enemy so this shouldn't be defined. will be defined now however so it can be tested
     //public void enemyAttack;
-    IEnumerable charge(Vector3 playerloc)
+
+    //convert to lamda?
+    IEnumerator Charge()
     {
-        Debug.Log("charge");
-        enemySpeed = 40;
+        float saveSpeed = enemySpeed;
+        agent.ResetPath();
+        enemySpeed = 0;
+        //Debug.Log("charging");
         //transform.Translate(move * enemySpeed * Time.deltaTime);
-        agent.destination = playerloc;
-        return null;
+        yield return new WaitForSeconds(3);
+        //Debug.Log("Charged");
+        hitbox.enabled = true;
+        transform.LookAt((player.transform.position - transform.position) * chargeStrength);
+        rb.AddForce((player.transform.position - transform.position) * chargeStrength, ForceMode.Impulse);
+        rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
+
+        yield return new WaitForSeconds(0.5f);
+        //Debug.Log("attack done");
+
+        hitbox.enabled = false;
+        enemySpeed = saveSpeed;
+        rb.velocity = Vector3.zero;
+        //agent.acceleration = 8;
+        //agent.stoppingDistance = 0;
+        stateMachine.changeState(new EnemyIdleState());
+    }
+
+    public bool CanSeePlayer()
+    {
+        if(player != null)
+        {
+            if(Vector3.Distance(transform.position, player.transform.position) < detectionRange)
+            {
+                Vector3 targetDirection = player.transform.position - transform.position;
+                float angleToPlayer = Vector3.Angle(targetDirection, transform.forward);
+                if(angleToPlayer >= -fieldOfView && angleToPlayer <= fieldOfView)
+                {
+                    Ray lineOfSight = new Ray(transform.position, targetDirection);
+                    RaycastHit hitInfo = new RaycastHit();
+                    if(Physics.Raycast(lineOfSight,out hitInfo, detectionRange))
+                    {
+                        if(hitInfo.transform.gameObject == player.gameObject)
+                        {
+                            //Debug.Log("I SEE YOU");
+                            return true;
+                        }
+                    }
+                    Debug.DrawRay(lineOfSight.origin, lineOfSight.direction*detectionRange);
+                }
+            }
+        }
+        //Debug.Log("missing");
+        return false;
     }
 
     [ContextMenu("Attack")]
-    public void enemyAttack()
+    public bool enemyAttack()
     {
-        //float saveSpeed = enemySpeed;
-        //enemySpeed = 0;
-
-        Collider[] hitPlayer = Physics.OverlapBox(hitbox.position, hitBoxSize, hitbox.rotation, playerLayer);
-        Debug.Log("enemy Hit");
-        foreach (Collider playerHit in hitPlayer)
-        {
-            Debug.Log("Player Hit");
-            player.playerTakeDamage(enemyDamage);
-        }
-        //Debug.Log("activate");
-        //Invoke("charge", 1.5f);
-        //enemySpeed = saveSpeed;
-        //transform.LookAt(playerPos);
-        //Debug.Log("attack done");
-
-
-        //Debug.Log("activate");
-        //IEnumerator charge()
-        //{
-        //    Debug.Log("charge");
-        //    ridgeBody.AddRelativeForce(transform.forward);
-        //    yield return new WaitForSeconds(3);
-        //}
-        //StartCoroutine(charge());
-        //transform.LookAt(playerPos);
-        //Debug.Log("attack done");
-
-        //Debug.Log("activate");
-        //enemySpeed = 0;
-        //float timeStart = Time.deltaTime;
-        //float timeCheck = 0;
-        //while (timeCheck < 3)
-        //{
-        //    Debug.Log("charge");
-        //    transform.LookAt(playerPos);
-        //    timeCheck = timeStart - Time.deltaTime;
-        //}
-        //Debug.Log("charge");
-
-        //ridgeBody.AddRelativeForce(transform.forward);
+        StartCoroutine(Charge());
+        return true;
     }
-    void OnDrawGizmosSelected()
+
+    private void OnTriggerEnter(Collider other)
     {
-        if (hitbox == null)
+        var player = other.GetComponent<PlayerAttibutes>();
+        if (player != null)
         {
-            return;
+            Debug.Log("PlayerHIt");
+            player.PlayerHealth = player.PlayerHealth - enemyDamage;
         }
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireCube(hitbox.position, hitBoxSize);
     }
+
+
 }

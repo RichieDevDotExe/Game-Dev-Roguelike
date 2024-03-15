@@ -30,6 +30,8 @@ public class InputManager : MonoBehaviour
     {
         playerMotor.ProcessMove(playerActions.Movement.ReadValue<Vector2>(),playerAtri.PlayerSpeed);
         playerActions.Attack.performed += ctx => playerAttack.playerAttack();
+
+        //move to game manager
         if (playerAtri.PlayerHealth <= 0)
         {
             playerDie();

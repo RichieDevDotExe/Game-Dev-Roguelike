@@ -7,6 +7,7 @@ public class EnemyIdleState : EnemyBaseState
     private int waypointIndex;
     public override void Enter()
     {
+        Debug.Log("Idle");
     }
 
     public override void Exit()
@@ -16,6 +17,10 @@ public class EnemyIdleState : EnemyBaseState
     public override void Perform()
     {
         IdleState();
+        if (Enemy.CanSeePlayer() == true)
+        {
+            StateMachine.changeState(new EnemyChaseState());
+        }
     }
 
     public void IdleState()
