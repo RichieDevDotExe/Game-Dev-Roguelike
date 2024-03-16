@@ -9,7 +9,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField]private Vector3 hitBoxSize;
     [SerializeField]private LayerMask enemyLayers;
     private Enemy enemy;
-    private PlayerAttibutes playerAttibutes;
+    private Player player;
     
 
     void Update()
@@ -18,7 +18,7 @@ public class PlayerAttack : MonoBehaviour
 
     void Start()
     {
-        playerAttibutes = GetComponent<PlayerAttibutes>();
+        player = GetComponent<Player>();
     }
 
     public void playerAttack()
@@ -32,7 +32,7 @@ public class PlayerAttack : MonoBehaviour
             Debug.Log("Hit");
             enemy = targetEnemy.gameObject.GetComponent<Enemy>();
             Debug.Log(enemy.name);
-            enemy.enemyTakeDamage(playerAttibutes.PlayerDamage);
+            enemy.entityTakeDamage(player.EntityDamage);
         }
     }
 

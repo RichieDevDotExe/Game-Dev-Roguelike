@@ -11,8 +11,9 @@ public class InputManager : MonoBehaviour
     private PlayerActionMap playerInput; 
     private PlayerActionMap.PlayerActions playerActions;
     private PlayerAttack playerAttack;
-    private PlayerAttibutes playerAtri;
+    private Player player;
     private PlayerMotor playerMotor;
+    private PlayerInteraction playerInteraction;
 
     // Start is called before the first frame update
     void Awake()
@@ -20,7 +21,8 @@ public class InputManager : MonoBehaviour
         playerInput = new PlayerActionMap();
         playerMotor = GetComponent<PlayerMotor>();
         playerAttack = GetComponent<PlayerAttack>();
-        playerAtri = GetComponent<PlayerAttibutes>();
+        player = GetComponent<Player>();
+        playerInteraction = GetComponent<PlayerInteraction>(); 
         playerActions = playerInput.Player;
 
     }
@@ -28,19 +30,19 @@ public class InputManager : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        playerMotor.ProcessMove(playerActions.Movement.ReadValue<Vector2>(),playerAtri.PlayerSpeed);
+        playerMotor.ProcessMove(playerActions.Movement.ReadValue<Vector2>(),player.EntitySpeed);
         playerActions.Attack.performed += ctx => playerAttack.playerAttack();
+        playerActions.Interact.performed += ctx => playerInteraction.CanSeeInteractable();
 
         //move to game manager
-        if (playerAtri.PlayerHealth <= 0)
+        if (player.EntityHealth <= 0)
         {
-            playerDie();
+            player.playerDie();
         }
-    }
-
-    void playerDie()
-    {
-        Destroy(gameObject);
+        if (player.EntityHealth > player.EntityMaxHealth)
+        {
+            player.EntityHealth = player.EntityMaxHealth;
+        }
     }
 
     private void OnEnable()

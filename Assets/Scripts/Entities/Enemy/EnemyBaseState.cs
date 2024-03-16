@@ -6,6 +6,7 @@ public abstract class EnemyBaseState
 {
     private Enemy enemy;
     private EnemyStateMachine stateMachine;
+
     public Enemy Enemy
     {
         get { return enemy; }

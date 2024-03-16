@@ -18,7 +18,7 @@ public class EnemyAttackState : EnemyBaseState
     { 
     }
 
-    private void AttackingLogic()
+    protected void AttackingLogic()
     {
         Enemy.enemyAttack();
     }

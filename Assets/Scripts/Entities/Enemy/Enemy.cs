@@ -6,17 +6,10 @@ using UnityEngine.AI;
 using UnityEngine.Rendering;
 using static UnityEngine.Rendering.DebugUI;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Entity
 {
     [Header("Enemy Stats")]
-    [SerializeField]private float enemyHealth;
-    [SerializeField]private float enemyMaxHealth;
-    [SerializeField]private float enemySpeed;
-    [SerializeField]private float enemyDamage;
     [SerializeField]private float enemyAttackRange;
-
-
-
 
     [Header("Attack")]
     private BoxCollider hitbox;
@@ -31,7 +24,7 @@ public class Enemy : MonoBehaviour
     [SerializeField]private string currentState;
 
     [Header("Enemy Misc")]
-    [SerializeField] private PlayerAttibutes player;
+    [SerializeField] private Player player;
 
     private EnemyStateMachine stateMachine;
     private NavMeshAgent agent;
@@ -43,7 +36,6 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
-        enemyHealth = enemyMaxHealth;
         stateMachine =  GetComponent<EnemyStateMachine>();
         agent = GetComponent<NavMeshAgent>();
         enemyPath = GetComponent<EnemyPath>();
@@ -54,51 +46,31 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        if (enemyHealth <= 0)
+        if (EntityHealth <= 0)
         {
-            enemyDie();
+            entityDie();
         }
-        agent.speed = enemySpeed;
+        agent.speed = EntitySpeed;
     }
 
-    public float EnemyHealth
-	{
-		get { return enemyHealth; }
-		set { enemyHealth = value; }
-	}
-    public float EnemyMaxHealth
-    {
-        get { return enemyMaxHealth; }
-        set { enemyMaxHealth = value; }
-    }
-    public float EnemySpeed
-    {
-        get { return enemySpeed; }
-        set { enemySpeed = value; }
-    }
-    public float EnemyDamage
-    {
-        get { return enemyDamage; }
-        set { enemyDamage = value; }
-    }
     public float EnemyAttackRange
     {
         get { return enemyAttackRange; }
         set { enemyAttackRange = value; }
     }
 
-    public PlayerAttibutes EnemyTarget
+    public Player EnemyTarget
     {
         get { return player; }
         set { player = value; }
     }
 
-    public void enemyTakeDamage(float damage)
+    public override void entityTakeDamage(float damage)
     {
-        enemyHealth -= damage;
+        health -= damage;
     }
 
-    private void enemyDie()
+    protected override void entityDie()
     {
         Destroy(gameObject);
     }
@@ -109,9 +81,9 @@ public class Enemy : MonoBehaviour
     //convert to lamda?
     IEnumerator Charge()
     {
-        float saveSpeed = enemySpeed;
+        float saveSpeed = speed;
         agent.ResetPath();
-        enemySpeed = 0;
+        EntitySpeed = 0;
         //Debug.Log("charging");
         //transform.Translate(move * enemySpeed * Time.deltaTime);
         yield return new WaitForSeconds(3);
@@ -125,7 +97,7 @@ public class Enemy : MonoBehaviour
         //Debug.Log("attack done");
 
         hitbox.enabled = false;
-        enemySpeed = saveSpeed;
+        speed = saveSpeed;
         rb.velocity = Vector3.zero;
         //agent.acceleration = 8;
         //agent.stoppingDistance = 0;
@@ -160,20 +132,28 @@ public class Enemy : MonoBehaviour
         return false;
     }
 
+
+    //unsure if this way of using attack is good
     [ContextMenu("Attack")]
-    public bool enemyAttack()
+    public void enemyAttack()
+    {
+        entityAttack();
+    }
+
+    protected override void entityAttack()
     {
         StartCoroutine(Charge());
-        return true;
     }
+
+    
 
     private void OnTriggerEnter(Collider other)
     {
-        var player = other.GetComponent<PlayerAttibutes>();
+        var player = other.GetComponent<Player>();
         if (player != null)
         {
             Debug.Log("PlayerHIt");
-            player.PlayerHealth = player.PlayerHealth - enemyDamage;
+            player.entityTakeDamage(damage);
         }
     }
 

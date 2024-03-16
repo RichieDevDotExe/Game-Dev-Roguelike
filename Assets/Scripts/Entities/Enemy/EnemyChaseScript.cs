@@ -21,7 +21,7 @@ public class EnemyChaseState : EnemyBaseState
     private void ChaseLogic()
     {
         Enemy.Agent.destination = Enemy.EnemyTarget.transform.position;
-        Enemy.Agent.speed = Enemy.EnemySpeed;
+        Enemy.Agent.speed = Enemy.EntitySpeed;
         if (Enemy.CanSeePlayer() != true)
         {
             StateMachine.changeState(new EnemyIdleState());

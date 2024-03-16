@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class Hud : MonoBehaviour
 {
     [SerializeField]
-    private PlayerAttibutes player;
+    private Player player;
     private TMP_Text healthDisplay;
     private Canvas hud;
 
@@ -16,12 +16,12 @@ public class Hud : MonoBehaviour
     void Start()
     {
         hud = GetComponent<Canvas>();
-        healthDisplay = hud.transform.Find("Health").gameObject.GetComponent<TMP_Text>();
+        healthDisplay = hud.gameObject.transform.Find("RawImage").gameObject.transform.Find("Health").gameObject.GetComponent<TMP_Text>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        healthDisplay.text = player.PlayerHealth.ToString();
+        healthDisplay.text = player.EntityHealth.ToString();
     }
 }
