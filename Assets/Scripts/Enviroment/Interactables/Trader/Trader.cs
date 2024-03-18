@@ -30,11 +30,15 @@ public class Trader : InteractableObject
     {
         if (isBuff) 
         {
-            return Random.Range(1,1.5f);
+            float ModStrength = (float)System.Math.Round(Random.Range(1, 1.5f), 2);
+            Debug.Log("generate buff strength " + ModStrength);
+            return ModStrength;
         }
         else
         {
-            return Random.Range(0.5f,1);
+            float ModStrength = (float)System.Math.Round(Random.Range(0.5f, 1), 2);
+            Debug.Log("generate debuff strength "+ + ModStrength);
+            return ModStrength;
         }
     }
 
@@ -53,7 +57,7 @@ public class Trader : InteractableObject
         buffStrength = genModStrengthPercent(true);
 
         buff.generateModDesc(buffStrength);
-        debuff.generateModDesc(buffStrength);
+        debuff.generateModDesc(debuffStrength);
 
         debuffDesc.text = debuff.ModDescription;
         buffDesc.text = buff.ModDescription;

@@ -9,6 +9,7 @@ using static UnityEngine.Rendering.DebugUI;
 public class Enemy : Entity
 {
     [Header("Enemy Stats")]
+    [SerializeField]private EnemySettings enemySettings;
     [SerializeField]private float enemyAttackRange;
 
     [Header("Attack")]
@@ -34,8 +35,19 @@ public class Enemy : Entity
     //debugging
     
 
-    void Start()
+    void Awake()
     {
+        maxHealth = enemySettings.MaxHealth;
+        health = maxHealth;
+        speed = enemySettings.Speed;
+        damage = enemySettings.Damage;
+        detectionRange = enemySettings.detectionRange;
+        fieldOfView = enemySettings.fieldOfView;
+        enemyAttackRange = enemySettings.AttackRange;
+        enemyCooldown = enemySettings.enemyCooldown;
+        chargeStrength = enemySettings.chargeStrength;
+
+
         stateMachine =  GetComponent<EnemyStateMachine>();
         agent = GetComponent<NavMeshAgent>();
         enemyPath = GetComponent<EnemyPath>();

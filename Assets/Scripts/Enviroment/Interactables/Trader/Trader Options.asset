@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Trader Options
   m_EditorClassIdentifier: 
   ModiferList:
-  - {fileID: 11400000, guid: 117b044fb8148f24d9d5bfb713d1d71e, type: 2}
-  - {fileID: 11400000, guid: 47dba486af7e95f4499fbd4ae5ead19e, type: 2}
+  - {fileID: 11400000, guid: 5385dea085e042c42ba0c46e46d4ae17, type: 2}
+  - {fileID: 11400000, guid: 3bb3c960fbe66ce499d649ad157bed4e, type: 2}
+  - {fileID: 11400000, guid: 9bd44dae25af0e0479651685e7fea3b0, type: 2}
