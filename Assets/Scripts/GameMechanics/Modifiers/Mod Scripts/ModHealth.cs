@@ -11,24 +11,24 @@ public class ModHealth : Modifers
     {
         if (modifierStrength < 1)
         {
-            target.EntityHealth = target.EntityHealth - (entity.EntityMaxHealth * modifierStrength);
+            target.EntityHealth = target.EntityHealth - (target.EntityMaxHealth * modifierStrength);
         }
         else
         {
-            target.EntityHealth = target.EntityHealth + (entity.EntityMaxHealth * (modifierStrength-1));
+            target.EntityHealth = target.EntityHealth + (target.EntityMaxHealth * (modifierStrength-1));
         }
             
     }
 
-    public override string generateModDesc(float modifierStrength = 0)
+    public override string generateModDesc(Entity target,float modifierStrength = 0)
     {
         if (modifierStrength < 1)
         {
-            modDescription = "Take " + (entity.EntityHealth * modifierStrength).ToString() + " damage";
+            modDescription = "Take " + (target.EntityMaxHealth * modifierStrength).ToString() + " damage";
         }
         else
         {
-            modDescription = "Restore " + (entity.EntityHealth * modifierStrength).ToString() + " health";
+            modDescription = "Restore " + (target.EntityMaxHealth * modifierStrength).ToString() + " health";
         }
         Debug.Log("Gen Desc");
         return modDescription;
