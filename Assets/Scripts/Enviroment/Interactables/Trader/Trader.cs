@@ -56,8 +56,8 @@ public class Trader : InteractableObject
         debuffStrength = genModStrengthPercent(false);
         buffStrength = genModStrengthPercent(true);
 
-        buff.generateModDesc(player, buffStrength);
-        debuff.generateModDesc(player,debuffStrength);
+        buff.generateModDesc(buffStrength);
+        debuff.generateModDesc(debuffStrength);
 
         debuffDesc.text = debuff.ModDescription;
         buffDesc.text = buff.ModDescription;

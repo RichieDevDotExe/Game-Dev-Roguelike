@@ -10,7 +10,7 @@ public class ModMaxHealth : Modifers
         target.EntityMaxHealth = target.EntityMaxHealth * modifierStrength;
     }
 
-    public override string generateModDesc(Entity target, float modifierStrength = 0)
+    public override string generateModDesc(float modifierStrength = 0)
     {
         if (modifierStrength > 1)
         {
