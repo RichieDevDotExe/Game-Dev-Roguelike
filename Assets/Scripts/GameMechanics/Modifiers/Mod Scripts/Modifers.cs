@@ -5,8 +5,15 @@ using UnityEngine;
 public abstract class Modifers : ScriptableObject
 {
 	protected string modDescription;
+	[SerializeField] protected string modName;
 
-	public string ModDescription
+    public string ModName
+    {
+        get { return modName; }
+        set { modName = value; }
+    }
+
+    public string ModDescription
 	{
 		get { return modDescription; }
 		set { modDescription = value; }

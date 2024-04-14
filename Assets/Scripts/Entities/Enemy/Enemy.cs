@@ -28,6 +28,7 @@ public class Enemy : Entity
     [SerializeField] private Player player;
 
     private EnemyStateMachine stateMachine;
+    private Animator enemyAnimator;
     private NavMeshAgent agent;
     private Rigidbody rb;
     public NavMeshAgent Agent { get => agent; }
@@ -47,11 +48,12 @@ public class Enemy : Entity
         enemyCooldown = enemySettings.enemyCooldown;
         chargeStrength = enemySettings.chargeStrength;
 
-
+        player = GameObject.Find("Player").transform.Find("Character_Male_Rouge_01").GetComponent<Player>();
+        enemyAnimator = GetComponent<Animator>();
         stateMachine =  GetComponent<EnemyStateMachine>();
         agent = GetComponent<NavMeshAgent>();
         enemyPath = GetComponent<EnemyPath>();
-        hitbox = GetComponentInChildren<BoxCollider>();
+        hitbox = transform.Find("HitBox").gameObject.GetComponent<BoxCollider>();
         rb = GetComponent<Rigidbody>(); 
         stateMachine.Init();
     }
@@ -62,6 +64,9 @@ public class Enemy : Entity
         {
             entityDie();
         }
+        enemyAnimator.SetFloat("Velx", rb.velocity.x);
+        enemyAnimator.SetFloat("Velx", rb.velocity.z);
+
         agent.speed = EntitySpeed;
     }
 
@@ -101,10 +106,11 @@ public class Enemy : Entity
         yield return new WaitForSeconds(3);
         //Debug.Log("Charged");
         hitbox.enabled = true;
-        transform.LookAt((player.transform.position - transform.position) * chargeStrength);
+        //transform.Find("Root").gameObject.
         rb.AddForce((player.transform.position - transform.position) * chargeStrength, ForceMode.Impulse);
         rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
-
+        Vector3 targetDirection = player.transform.position - transform.position;
+        transform.LookAt(targetDirection);
         yield return new WaitForSeconds(0.5f);
         //Debug.Log("attack done");
 

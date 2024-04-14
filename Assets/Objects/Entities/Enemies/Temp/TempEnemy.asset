@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHealth: 100
   Damage: 10
-  Speed: 0
+  Speed: 2
   AttackRange: 5
   detectionRange: 10
   fieldOfView: 80
   enemyCooldown: 0
-  chargeStrength: 1.5
+  chargeStrength: 3

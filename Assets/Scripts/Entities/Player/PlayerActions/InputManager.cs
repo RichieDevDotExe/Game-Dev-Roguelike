@@ -22,7 +22,7 @@ public class InputManager : MonoBehaviour
         playerMotor = GetComponent<PlayerMotor>();
         playerAttack = GetComponent<PlayerAttack>();
         player = GetComponent<Player>();
-        playerInteraction = GetComponent<PlayerInteraction>(); 
+        playerInteraction = GetComponent<PlayerInteraction>();
         playerActions = playerInput.Player;
 
     }
@@ -31,8 +31,10 @@ public class InputManager : MonoBehaviour
     void FixedUpdate()
     {
         playerMotor.ProcessMove(playerActions.Movement.ReadValue<Vector2>(),player.EntitySpeed);
+        playerInteraction.activateDrops();
         playerActions.Attack.performed += ctx => playerAttack.playerAttack();
         playerActions.Interact.performed += ctx => playerInteraction.CanSeeInteractable();
+        playerActions.Potion.performed += ctx => player.playerPotionHeal(); ;
 
         //move to game manager
         if (player.EntityHealth <= 0)

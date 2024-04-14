@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class Hud : MonoBehaviour
 {
-    [SerializeField]
     private Player player;
     private TMP_Text healthDisplay;
     private Canvas hud;
@@ -16,6 +15,7 @@ public class Hud : MonoBehaviour
     void Start()
     {
         hud = GetComponent<Canvas>();
+        player = GameObject.Find("Player").transform.Find("Character_Male_Rouge_01").GetComponent<Player>();  
         healthDisplay = hud.gameObject.transform.Find("RawImage").gameObject.transform.Find("Health").gameObject.GetComponent<TMP_Text>();
     }
 

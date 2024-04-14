@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: potion
+  m_EditorClassIdentifier: Assembly-CSharp::ChestLoot/ChestItem
+  itemName: potion
+  min: 0
+  max: 3
+  dropChance: 0.2
+  model: {fileID: 8437273686671643346, guid: 6843e39edd3bb1545a6769aa181aa826, type: 3}

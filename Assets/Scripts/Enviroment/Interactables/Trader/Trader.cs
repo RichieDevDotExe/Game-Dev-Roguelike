@@ -7,8 +7,9 @@ public class Trader : InteractableObject
 {
     [SerializeField]private Canvas playerUI;
     [SerializeField]private Canvas traderUI;
-    [SerializeField] private TraderOptions traderOptions;
-    [SerializeField] private Player player;
+    [SerializeField]private TraderOptions traderOptions;
+    private Animator traderAnimator;
+    private Entity player;
     private Modifers[] traderInventory;
 
     private Modifers buff;
@@ -21,9 +22,11 @@ public class Trader : InteractableObject
 
     private void Awake()
     {
+        traderAnimator = GetComponent<Animator>();
         traderInventory = traderOptions.ModiferList;
         debuffDesc = traderUI.gameObject.transform.Find("Debuff").gameObject.transform.Find("DebuffOffer").gameObject.GetComponent<TMP_Text>();
         buffDesc = traderUI.gameObject.transform.Find("Buff").gameObject.transform.Find("BuffOffer").gameObject.GetComponent<TMP_Text>();
+        player = GameObject.Find("Player").transform.Find("Character_Male_Rouge_01").GetComponent<Player>();
     }
 
     private float genModStrengthPercent(bool isBuff)
@@ -40,6 +43,11 @@ public class Trader : InteractableObject
             Debug.Log("generate debuff strength "+ + ModStrength);
             return ModStrength;
         }
+    }
+
+    public void InteractStart()
+    {
+        traderAnimator.SetTrigger("interact");
     }
 
     public override void Interact()
@@ -74,6 +82,7 @@ public class Trader : InteractableObject
         debuff.applyMod(player, debuffStrength);
         playerUI.enabled = true;
         traderUI.enabled = false;
+        Destroy(gameObject);
     }
     public void TradeRejecteded()
     {
@@ -81,6 +90,7 @@ public class Trader : InteractableObject
         Time.timeScale = 1;
         playerUI.enabled = true;
         traderUI.enabled = false;
+        Destroy(gameObject);
     }
 
 }

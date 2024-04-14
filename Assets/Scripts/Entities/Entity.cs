@@ -9,6 +9,7 @@ public abstract class Entity : MonoBehaviour
     [SerializeField] protected float maxHealth;
     [SerializeField] protected float speed;
     [SerializeField] protected float damage;
+    [SerializeField] protected EntityModifierOptions modList;
 
     void Awake()
     {
