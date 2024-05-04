@@ -5215,11 +5215,11 @@ PrefabInstance:
     - target: {fileID: 9545102, guid: aea27ca7a35042c419065833e8daf224, type: 3}
       propertyPath: m_Avatar
       value: 
-      objectReference: {fileID: 9000000, guid: 15b9774454e40964398e6d4d363bcee0, type: 2}
+      objectReference: {fileID: 9000000, guid: 462c2bcd71ce41642bc269d0f5002ad9, type: 2}
     - target: {fileID: 9545102, guid: aea27ca7a35042c419065833e8daf224, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: e44cf0c99a342b14ba5392143155645d, type: 2}
+      objectReference: {fileID: 9100000, guid: ba57a1839e34800419e9ac80c64db58c, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

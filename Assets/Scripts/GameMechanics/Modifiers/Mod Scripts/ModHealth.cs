@@ -22,11 +22,11 @@ public class ModHealth : Modifers
     {
         if (modifierStrength < 1)
         {
-            modDescription = "Take " + (modifierStrength).ToString() + "% damage";
+            modDescription = "Take " + (modifierStrength*100).ToString() + "% damage";
         }
         else
         {
-            modDescription = "Restore " + (modifierStrength).ToString() + "% health";
+            modDescription = "Restore " + ((modifierStrength-1) * 100).ToString() + "% health";
         }
         Debug.Log("Gen Desc");
         return modDescription;

@@ -47,6 +47,7 @@ public class Enemy : Entity
         enemyAttackRange = enemySettings.AttackRange;
         enemyCooldown = enemySettings.enemyCooldown;
         chargeStrength = enemySettings.chargeStrength;
+        maxSpeed = enemySettings.maxSpeed;
 
         player = GameObject.Find("Player").transform.Find("Character_Male_Rouge_01").GetComponent<Player>();
         enemyAnimator = GetComponent<Animator>();
@@ -84,7 +85,11 @@ public class Enemy : Entity
 
     public override void entityTakeDamage(float damage)
     {
-        health -= damage;
+        if (Time.time - iFrameStart >= iFrames)
+        {
+            health -= damage;
+            iFrameStart = Time.time;
+        }
     }
 
     protected override void entityDie()
@@ -101,17 +106,28 @@ public class Enemy : Entity
         float saveSpeed = speed;
         agent.ResetPath();
         EntitySpeed = 0;
+        enemyAnimator.SetBool("IsCharging", true);
         //Debug.Log("charging");
         //transform.Translate(move * enemySpeed * Time.deltaTime);
         yield return new WaitForSeconds(3);
+        enemyAnimator.SetBool("IsCharging", false);
+        enemyAnimator.SetBool("IsAttacking", true);
+        enemyAnimator.speed = 3;
         //Debug.Log("Charged");
         hitbox.enabled = true;
         //transform.Find("Root").gameObject.
-        rb.AddForce((player.transform.position - transform.position) * chargeStrength, ForceMode.Impulse);
-        rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
-        Vector3 targetDirection = player.transform.position - transform.position;
+        Vector3 forceCal = (player.transform.position - transform.position) * chargeStrength;
+        if (forceCal.magnitude > maxSpeed)
+        {
+            var direction = forceCal.normalized;
+            forceCal = direction * maxSpeed;
+        }
+        rb.AddForce(forceCal, ForceMode.Impulse);
+        Vector3 targetDirection = player.transform.position;
         transform.LookAt(targetDirection);
         yield return new WaitForSeconds(0.5f);
+        enemyAnimator.SetBool("IsAttacking", false);
+        enemyAnimator.speed = 1;
         //Debug.Log("attack done");
 
         hitbox.enabled = false;

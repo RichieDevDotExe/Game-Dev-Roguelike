@@ -6,6 +6,7 @@ public class CameraController : MonoBehaviour
 {
 
     private Transform player;
+    private Vector3 pos;
     [SerializeField] private float cameraSpeed;
     [SerializeField] private Vector3 offset;
     [SerializeField] private float followDistance;
@@ -19,8 +20,16 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
-        Vector3 pos = Vector3.Lerp(transform.position, player.position + offset + -transform.forward *followDistance ,cameraSpeed*Time.deltaTime);
-        transform.position = pos;
-        transform.rotation = rotation;
+        if (player != null)
+        {
+            pos = Vector3.Lerp(transform.position, player.position + offset + -transform.forward * followDistance, cameraSpeed * Time.deltaTime);
+            transform.position = pos;
+            transform.rotation = rotation;
+        }
+        else 
+        {
+            transform.position = pos;
+            transform.rotation = rotation;
+        }
     }
 }

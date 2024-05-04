@@ -13,6 +13,8 @@ public class EnemySettings : ScriptableObject
     [SerializeField] public float detectionRange;
     [SerializeField] public float fieldOfView;
     [SerializeField] public float enemyCooldown;
+    [SerializeField] public float maxSpeed;
     [SerializeField] public float chargeStrength;
+    [SerializeField] public float iFrames;
     //[SerializeField] public GameObject player;
 }

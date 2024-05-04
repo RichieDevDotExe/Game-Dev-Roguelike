@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 
 public abstract class Entity : MonoBehaviour
@@ -9,7 +11,10 @@ public abstract class Entity : MonoBehaviour
     [SerializeField] protected float maxHealth;
     [SerializeField] protected float speed;
     [SerializeField] protected float damage;
+    [SerializeField] protected float iFrames;
+    protected float iFrameStart;
     [SerializeField] protected EntityModifierOptions modList;
+
 
     void Awake()
     {
@@ -20,6 +25,7 @@ public abstract class Entity : MonoBehaviour
         get { return health; }
         set { health = value; }
     }
+
     public float EntityMaxHealth
     {
         get { return maxHealth; }
@@ -41,4 +47,6 @@ public abstract class Entity : MonoBehaviour
     protected abstract void entityDie();
 
     protected abstract void entityAttack();
+
+    public virtual int Gold { get; set; }
 }

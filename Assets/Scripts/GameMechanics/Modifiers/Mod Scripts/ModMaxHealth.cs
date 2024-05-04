@@ -7,7 +7,9 @@ public class ModMaxHealth : Modifers
 {
     public override void applyMod(Entity target, float modifierStrength)
     {
+        float currHealthPercent = target.EntityHealth / target.EntityMaxHealth;
         target.EntityMaxHealth = target.EntityMaxHealth * modifierStrength;
+        target.EntityHealth = target.EntityMaxHealth * currHealthPercent;
     }
 
     public override string generateModDesc(float modifierStrength = 0)

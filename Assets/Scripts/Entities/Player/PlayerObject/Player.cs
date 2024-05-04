@@ -8,8 +8,8 @@ using UnityEngine;
 public class Player : Entity
 {
 	[Header("Player Stats")]
-	[SerializeField]private float playerAttackRate;
 	[SerializeField]private float attackCooldown;
+    private float lastPlayerAttack;
 
     [Header("Player Items")]
     [SerializeField] private int potions;
@@ -27,11 +27,36 @@ public class Player : Entity
         animator = GetComponent<Animator>();
     }
 
-    public float PlayerAttackRate
-	{
-		get { return playerAttackRate; }
-		set { playerAttackRate = value; }
-	}
+    public float LastPlayerAttack
+    {
+        get { return lastPlayerAttack; }
+        set { lastPlayerAttack = value; }
+    }
+
+    public float AttackCooldown
+    {
+        get { return attackCooldown; }
+        set { attackCooldown = value; }
+    }
+
+
+    public override int Gold
+    {
+        get { return gold; }
+        set { gold = value; }
+    }
+
+    public int Potions
+    {
+        get { return potions; }
+        set { potions = value; }
+    }
+
+    public Collider Hitbox
+    {
+        get { return hitbox; }
+        set { hitbox = value; }
+    }
 
     public Animator PlayerAnimator
     {
@@ -57,7 +82,11 @@ public class Player : Entity
 
     public override void entityTakeDamage(float damage)
     {
-        health -= damage;
+        if (Time.time - iFrameStart >= iFrames)
+        {
+            health -= damage;
+            iFrameStart = Time.time;
+        }
     }
 
     public void playerPotionHeal()
@@ -72,7 +101,7 @@ public class Player : Entity
     private void OnTriggerEnter(Collider other)
     {
         GameObject item = other.gameObject;
-        Debug.Log("item");
+        //Debug.Log("item");
         if (item.tag == "Item")
         {
             Items itemInfo = item.GetComponent<Items>();

@@ -21,5 +21,6 @@ public class EnemyNavigation : MonoBehaviour
     {
         agent.destination = playerLocation.position;
         agent.speed = enemy.EntitySpeed;
+        transform.LookAt(playerLocation.position);
     }
 }

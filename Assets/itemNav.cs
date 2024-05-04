@@ -21,7 +21,7 @@ public class Items : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(chasePlayer == true)
+        if((chasePlayer == true) && (player != null) )
         {
             agent.destination = player.transform.Find("Character_Male_Rouge_01").transform.position;
         }
