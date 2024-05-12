@@ -266,6 +266,8 @@ MonoBehaviour:
   lootTable:
   - {fileID: 11400000, guid: 61b23fa348603b64cb0467e1668bf91f, type: 2}
   - {fileID: 11400000, guid: ef04e56ffcdd56445823ba10230925d3, type: 2}
+  gold: {fileID: -3297276700566930290, guid: b0925a1a51716d04cae98931c7294c5e, type: 3}
+  potion: {fileID: 9036920815516581467, guid: 6843e39edd3bb1545a6769aa181aa826, type: 3}
 --- !u!136 &5170888210778540134
 CapsuleCollider:
   m_ObjectHideFlags: 0

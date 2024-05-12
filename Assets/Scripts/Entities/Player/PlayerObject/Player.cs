@@ -22,7 +22,7 @@ public class Player : Entity
 
     private void Start()
     {
-        playerAttack = GetComponent<PlayerAttack>();
+        playerAttack = GameObject.Find("Player").transform.Find("Character_Male_Rouge_01").transform.Find("Root").transform.Find("Hips").transform.Find("Spine_01").transform.Find("Spine_02").transform.Find("Spine_03").transform.Find("Clavicle_R").transform.Find("Shoulder_R").transform.Find("Elbow_R").transform.Find("Hand_R").transform.Find("SM_Prop_SwordOrnate_01").transform.Find("weaponHitBox").gameObject.GetComponent<PlayerAttack>();
         hitbox = GetComponent<Collider>();
         animator = GetComponent<Animator>();
     }

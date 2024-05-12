@@ -25,7 +25,7 @@ public class InputManager : MonoBehaviour
     {
         playerInput = new PlayerActionMap();
         playerMotor = GetComponent<PlayerMotor>();
-        playerAttack = GetComponent<PlayerAttack>();
+        playerAttack = GameObject.Find("Player").transform.Find("Character_Male_Rouge_01").transform.Find("Root").transform.Find("Hips").transform.Find("Spine_01").transform.Find("Spine_02").transform.Find("Spine_03").transform.Find("Clavicle_R").transform.Find("Shoulder_R").transform.Find("Elbow_R").transform.Find("Hand_R").transform.Find("SM_Prop_SwordOrnate_01").transform.Find("weaponHitBox").gameObject.GetComponent<PlayerAttack>();
         player = GetComponent<Player>();
         playerInteraction = GetComponent<PlayerInteraction>();
         playerActions = playerInput.Player;
@@ -65,9 +65,12 @@ public class InputManager : MonoBehaviour
         if ((Time.time - playerMotor.DodgeTimer) >= playerMotor.DashCooldown)
         {
             playerMotor.dodgeMovement();
-            player.Hitbox.enabled = false;
+            //player.Hitbox.enabled = false;
+            player.Hitbox.excludeLayers = 1<<6;
             yield return new WaitForSeconds(0.5f);
-            player.Hitbox.enabled = true;
+
+            player.Hitbox.excludeLayers = 0;
+            //player.Hitbox.enabled = true;
             playerMotor.RB.angularVelocity = Vector3.zero;
             playerMotor.RB.velocity = Vector3.zero;
             playerMotor.DodgeTimer = Time.time;

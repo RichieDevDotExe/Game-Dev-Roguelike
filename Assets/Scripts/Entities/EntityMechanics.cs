@@ -17,7 +17,7 @@ public class EntityMechanics : ScriptableObject
     private int frostStacks;
 
 
-    public void frostMechanic(int stacks)
+    public void frost(int stacks)
     {
         frostStacks = frostStacks + stacks-1;
         if ((stacks == 0) && (savedSpeed != entity.EntitySpeed))
@@ -33,6 +33,11 @@ public class EntityMechanics : ScriptableObject
         //    frostStacks = 1;
         //}
     }
+
+    //public void poison(int stacks)
+    //{
+    //    if
+    //}
     //public void frozen()
     //{
     //    entity.EntitySpeed = 0;

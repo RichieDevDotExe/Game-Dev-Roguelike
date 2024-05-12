@@ -5,10 +5,7 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour
 {
     [Header("Attack Hitbox")]
-    [SerializeField] private BoxCollider hitbox;
-    [SerializeField] private Vector3 hitBoxSize;
-    [SerializeField] private float hitBoxOffsetX;
-    [SerializeField] private float hitBoxOffsetY;
+    private BoxCollider hitbox;
     [SerializeField] private LayerMask enemyLayers;
     private Enemy enemy;
     private Player player;
@@ -21,9 +18,9 @@ public class PlayerAttack : MonoBehaviour
 
     void Start()
     {
-        hitbox = GameObject.Find("Player").transform.Find("Character_Male_Rouge_01").transform.Find("Root").transform.Find("Hips").transform.Find("Spine_01").transform.Find("Spine_02").transform.Find("Spine_03").transform.Find("Clavicle_R").transform.Find("Shoulder_R").transform.Find("Elbow_R").transform.Find("Hand_R").transform.Find("SM_Prop_SwordOrnate_01").transform.Find("weaponHitBox").gameObject.GetComponent<BoxCollider>();
-        player = GetComponent<Player>();
-        animator = GetComponent<Animator>();
+        hitbox = GetComponent<BoxCollider>();
+        player = GameObject.Find("Player").transform.Find("Character_Male_Rouge_01").GetComponent<Player>();
+        animator = GameObject.Find("Player").transform.Find("Character_Male_Rouge_01").GetComponent<Animator>();
     }
 
     //public void playerAttack()
@@ -68,6 +65,8 @@ public class PlayerAttack : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         var enemy = other.gameObject.GetComponent<Enemy>();
+
+        
         if (enemy != null)
         {
             Debug.Log("Hit" + enemy.name);

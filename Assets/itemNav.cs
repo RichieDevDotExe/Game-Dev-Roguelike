@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -8,6 +9,12 @@ public class Items : MonoBehaviour
 {
     private NavMeshAgent agent;
     private GameObject player;
+    private Action<Items> destroyThis;
+    public Action<Items> DestroyThis
+    {
+        get { return destroyThis;}
+    }
+
     [SerializeField] private string itemName;
     private bool chasePlayer;
 
@@ -27,6 +34,11 @@ public class Items : MonoBehaviour
         }
     }
 
+    public void giveDestroy(Action<Items> destroyFunct)
+    {
+        destroyThis = destroyFunct;
+    }
+
     public void activateItem()
     {
         chasePlayer = true;
@@ -34,7 +46,8 @@ public class Items : MonoBehaviour
 
     public void destroyItem()
     {
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        destroyThis(this);
     }
 
     public string ItemName

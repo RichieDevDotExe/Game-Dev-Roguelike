@@ -549,10 +549,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 130070, guid: 534b7b0f42c1d304299f3f3762536fb4,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5619866908459494086}
-    - targetCorrespondingSourceObject: {fileID: 130070, guid: 534b7b0f42c1d304299f3f3762536fb4,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 5170566683767345129}
     - targetCorrespondingSourceObject: {fileID: 130070, guid: 534b7b0f42c1d304299f3f3762536fb4,
         type: 3}
@@ -574,6 +570,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8339211336430036695}
+    - targetCorrespondingSourceObject: {fileID: 3633281656077436847, guid: 534b7b0f42c1d304299f3f3762536fb4,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3332956536365193884}
   m_SourcePrefab: {fileID: 100100000, guid: 534b7b0f42c1d304299f3f3762536fb4, type: 3}
 --- !u!1 &270475078663251364 stripped
 GameObject:
@@ -630,8 +630,8 @@ MonoBehaviour:
   maxHealth: 100
   speed: 5
   damage: 10
+  iFrames: 0
   modList: {fileID: 11400000, guid: b3fc4ae2c20c7434ea5a8df07d06ac50, type: 2}
-  playerAttackRate: 0
   attackCooldown: 0
   potions: 0
   maxPotions: 3
@@ -648,25 +648,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57dca191d93238b42b167e51bc96cf1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5619866908459494086
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 270475078663302098}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 970f657164f19bb478d09f31c06c31fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hitbox: {fileID: 8339211336430036695}
-  hitBoxSize: {x: 0.7, y: 1.44, z: 0.91}
-  hitBoxOffsetX: 0.65
-  hitBoxOffsetY: 0.94
-  enemyLayers:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!114 &5170566683767345129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -791,3 +772,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 35.93, y: 20.43, z: 134.4}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3332956536365193884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3579492866891960427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 970f657164f19bb478d09f31c06c31fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitbox: {fileID: 8339211336430036695}
+  hitBoxSize: {x: 0, y: 0, z: 0}
+  hitBoxOffsetX: 0
+  hitBoxOffsetY: 0
+  enemyLayers:
+    serializedVersion: 2
+    m_Bits: 0
