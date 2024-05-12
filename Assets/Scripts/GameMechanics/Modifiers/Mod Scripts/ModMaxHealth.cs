@@ -16,11 +16,11 @@ public class ModMaxHealth : Modifers
     {
         if (modifierStrength > 1)
         {
-            modDescription = "Max health is increased by " + modifierStrength.ToString() + "%";
+            modDescription = "Max health is increased by " + ((modifierStrength-1)*100).ToString() + "%";
         }
         else
         {
-            modDescription = "Max health is reduced by " + modifierStrength.ToString() + "%";
+            modDescription = "Max health is reduced by " + ((1-modifierStrength)*100).ToString() + "%";
         }
         return modDescription;
     }

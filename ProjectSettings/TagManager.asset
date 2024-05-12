@@ -8,6 +8,9 @@ TagManager:
   - Trader
   - Item
   - WeaponPlayer
+  - Chest
+  - Shopkeeper
+  - Spawner
   layers:
   - Default
   - TransparentFX

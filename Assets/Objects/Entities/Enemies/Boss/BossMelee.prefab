@@ -18,10 +18,41 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 953262616791443779, guid: 3d04aa52ec9b5cc4fb40deefcf137339,
+        type: 3}
+      propertyPath: enemySettings
+      value: 
+      objectReference: {fileID: 11400000, guid: 43f5d48d9da4d034f91b5edccdb572a8,
+        type: 2}
+    - target: {fileID: 1783796100708378884, guid: 3d04aa52ec9b5cc4fb40deefcf137339,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 1783796100708378884, guid: 3d04aa52ec9b5cc4fb40deefcf137339,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -4.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2292649307048681135, guid: 3d04aa52ec9b5cc4fb40deefcf137339,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.96
+      objectReference: {fileID: 0}
+    - target: {fileID: 2292649307048681135, guid: 3d04aa52ec9b5cc4fb40deefcf137339,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.35
+      objectReference: {fileID: 0}
     - target: {fileID: 2952716945231953338, guid: 3d04aa52ec9b5cc4fb40deefcf137339,
         type: 3}
       propertyPath: m_Name
       value: BossMelee
+      objectReference: {fileID: 0}
+    - target: {fileID: 3322285779614813184, guid: 3d04aa52ec9b5cc4fb40deefcf137339,
+        type: 3}
+      propertyPath: m_WarningMessage
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3361491829566016678, guid: 3d04aa52ec9b5cc4fb40deefcf137339,
         type: 3}
@@ -116,5 +147,27 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3408053405585651398, guid: 3d04aa52ec9b5cc4fb40deefcf137339,
+        type: 3}
+      insertIndex: 3
+      addedObject: {fileID: 8306231963446965224}
   m_SourcePrefab: {fileID: 100100000, guid: 3d04aa52ec9b5cc4fb40deefcf137339, type: 3}
+--- !u!1 &5488395409312384703 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3408053405585651398, guid: 3d04aa52ec9b5cc4fb40deefcf137339,
+    type: 3}
+  m_PrefabInstance: {fileID: 7161114901330342009}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8306231963446965224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5488395409312384703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46331413a1e326b4a9a4d48898063955, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

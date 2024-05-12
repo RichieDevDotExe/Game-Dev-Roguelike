@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Timeline;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class Shopkeeper : InteractableObject
 {
@@ -25,6 +27,7 @@ public class Shopkeeper : InteractableObject
     private TMP_Text offerDesc;
     private TMP_Text costDesc;
 
+    private Action<GameObject> destroyThis;
     private void Awake()
     {
         shopkeeperAnimator = GetComponent<Animator>();
@@ -106,7 +109,7 @@ public class Shopkeeper : InteractableObject
             player.Gold = player.Gold - cost;
             playerUI.enabled = true;
             shopkeeperUI.enabled = false;
-            Destroy(gameObject);
+            StartCoroutine(shopkeeperDest());
         }
         else 
         {
@@ -120,6 +123,22 @@ public class Shopkeeper : InteractableObject
         Time.timeScale = 1;
         playerUI.enabled = true;
         shopkeeperUI.enabled = false;
+    }
+
+    public void giveDestroy(Action<GameObject> destroyFunct)
+    {
+        destroyThis = destroyFunct;
+    }
+
+    IEnumerator shopkeeperDest()
+    {
+        yield return new WaitForSeconds(1f);
+        destroyThis(transform.parent.gameObject);
+    }
+
+    public void resetThis()
+    {
+        destroyThis(transform.parent.gameObject);
     }
 
 }

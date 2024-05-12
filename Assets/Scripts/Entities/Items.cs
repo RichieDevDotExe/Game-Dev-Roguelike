@@ -10,10 +10,6 @@ public class Items : MonoBehaviour
     private NavMeshAgent agent;
     private GameObject player;
     private Action<Items> destroyThis;
-    public Action<Items> DestroyThis
-    {
-        get { return destroyThis;}
-    }
 
     [SerializeField] private string itemName;
     private bool chasePlayer;

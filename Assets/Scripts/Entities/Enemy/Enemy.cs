@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -28,16 +29,20 @@ public class Enemy : Entity
     [SerializeField] private Player player;
 
     private EnemyStateMachine stateMachine;
+    private Action<GameObject> destroyThis;
     private Animator enemyAnimator;
     private NavMeshAgent agent;
     private Rigidbody rb;
+    private Canvas playerUI;
+    private Canvas nextLevelUI;
     public NavMeshAgent Agent { get => agent; }
     public EnemyPath EnemyPath { get => enemyPath; }
     //debugging
     
 
-    void Awake()
+    public void Init()
     {
+        Debug.Log("Init" + name);
         maxHealth = enemySettings.MaxHealth;
         health = maxHealth;
         speed = enemySettings.Speed;
@@ -48,21 +53,33 @@ public class Enemy : Entity
         enemyCooldown = enemySettings.enemyCooldown;
         chargeStrength = enemySettings.chargeStrength;
         maxSpeed = enemySettings.maxSpeed;
+        stateMachine.Init();
+        agent = GetComponent<NavMeshAgent>();
+        enemyPath = GetComponent<EnemyPath>();
+    }
 
+    void Awake()
+    {
+        playerUI = GameObject.Find("PlayerUI").GetComponent<Canvas>();
+        nextLevelUI = GameObject.Find("NextLevelUI").GetComponent<Canvas>();
         player = GameObject.Find("Player").transform.Find("Character_Male_Rouge_01").GetComponent<Player>();
         enemyAnimator = GetComponent<Animator>();
         stateMachine =  GetComponent<EnemyStateMachine>();
-        agent = GetComponent<NavMeshAgent>();
-        enemyPath = GetComponent<EnemyPath>();
         hitbox = transform.Find("HitBox").gameObject.GetComponent<BoxCollider>();
         rb = GetComponent<Rigidbody>(); 
-        stateMachine.Init();
     }
 
     private void Update()
     {
         if (EntityHealth <= 0)
         {
+            Debug.Log(transform.parent.name);
+            if (transform.parent.name == "BossMelee(Clone)")
+            {
+                Time.timeScale = 0f;
+                playerUI.enabled = false;
+                nextLevelUI.enabled = true;
+            }
             entityDie();
         }
         enemyAnimator.SetFloat("Velx", rb.velocity.x);
@@ -94,7 +111,8 @@ public class Enemy : Entity
 
     protected override void entityDie()
     {
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        destroyThis(transform.parent.gameObject);
     }
 
     //enemy attack will be different for every single enemy so this shouldn't be defined. will be defined now however so it can be tested
@@ -179,7 +197,10 @@ public class Enemy : Entity
         StartCoroutine(Charge());
     }
 
-    
+    public void giveDestroy(Action<GameObject> destroyFunct)
+    {
+        destroyThis = destroyFunct;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -191,5 +212,10 @@ public class Enemy : Entity
         }
     }
 
+    public void resetThis()
+    {
+        destroyThis(transform.parent.gameObject);
+        Init();
+    }
 
 }

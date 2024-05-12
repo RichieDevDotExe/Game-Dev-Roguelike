@@ -14,11 +14,11 @@ public class ModAttack : Modifers
     {
         if (modifierStrength > 1)
         {
-            modDescription = "Attack is increased by " + modifierStrength.ToString() + "%";
+            modDescription = "Attack is increased by " + ((modifierStrength - 1) * 100).ToString() + "%";
         }
         else
         {
-            modDescription = "Attack is reduced by " + modifierStrength.ToString()+"%";
+            modDescription = "Attack is reduced by " + ((1 - modifierStrength) * 100).ToString() + "%";
         }
         return modDescription;
     }

@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class Trader : InteractableObject
 {
@@ -23,6 +25,8 @@ public class Trader : InteractableObject
 
     private TMP_Text buffDesc;
     private TMP_Text debuffDesc;
+
+    private Action<GameObject> destroyThis;
 
     private void Awake()
     {
@@ -110,7 +114,7 @@ public class Trader : InteractableObject
         debuff.applyMod(player, debuffStrength);
         playerUI.enabled = true;
         traderUI.enabled = false;
-        Destroy(gameObject);
+        StartCoroutine(traderDest());
     }
     public void TradeRejecteded()
     {
@@ -118,7 +122,23 @@ public class Trader : InteractableObject
         Time.timeScale = 1;
         playerUI.enabled = true;
         traderUI.enabled = false;
-        Destroy(gameObject);
+        StartCoroutine(traderDest());
+    }
+
+    public void giveDestroy(Action<GameObject> destroyFunct)
+    {
+        destroyThis = destroyFunct;
+    }
+
+    IEnumerator traderDest()
+    {
+        yield return new WaitForSeconds(1f);
+        destroyThis(transform.parent.gameObject);
+    }
+
+    public void resetThis()
+    {
+        destroyThis(transform.parent.gameObject);
     }
 
 }

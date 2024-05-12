@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Pool;
 using static UnityEditor.Progress;
 
@@ -10,14 +12,18 @@ public class Chest : InteractableObject
     [SerializeField] private ChestLoot.ChestItem[] lootTable;
     private Animator animator;
 
+
     [SerializeField] private Items gold;
     private ObjectPool<Items> goldPool;
 
     [SerializeField] private Items potion;
     private ObjectPool<Items> potionPool;
 
-
-
+    private int numbOfItems;
+    private float dropChance;
+    private float RNG;
+    private Action<Chest> destroyThis;
+    public Animator Animator { get => animator; }
 
     private void Awake()
     {
@@ -69,8 +75,14 @@ public class Chest : InteractableObject
 
     private void chestDone()
     {
-        Destroy(gameObject, 1f);
+        StartCoroutine(chestDoneWait());
+    }
+
+    IEnumerator chestDoneWait()
+    {
         generateLoot();
+        yield return new WaitForSeconds(1f);
+        destroyThis(this);
     }
 
     public void generateLoot()
@@ -78,11 +90,11 @@ public class Chest : InteractableObject
         for (int i = 0; i < lootTable.Length; i++)
         {
             ChestLoot.ChestItem item = lootTable[i];
-            int numbOfItems = Random.Range(item.min, item.max);
+            numbOfItems = UnityEngine.Random.Range(item.min, item.max);
             for(int j = 0; j < numbOfItems; j++)
             {
-                float dropChance = item.dropChance;
-                float RNG = Random.Range(0f, 1f);
+                dropChance = item.dropChance;
+                RNG = UnityEngine.Random.Range(0f, 1f);
                 if(RNG <= dropChance)
                 {
                     Debug.Log("Spawning- " + item.name);
@@ -112,5 +124,15 @@ public class Chest : InteractableObject
         {
             potionPool.Release(item);
         }
+    }
+
+    public void giveDestroy(Action<Chest> destroyFunct)
+    {
+        destroyThis = destroyFunct;
+    }
+
+    public void resetThis()
+    {
+        destroyThis(this);
     }
 }
