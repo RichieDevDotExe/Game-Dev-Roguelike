@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class NextLevelUI : MonoBehaviour
 {
@@ -12,33 +13,34 @@ public class NextLevelUI : MonoBehaviour
 
     private GameObject[] spawners;
     private GameObject player;
+    private Player playerAtri;
+    private CharacterController characterController;
     private Canvas playerUI;
     private Canvas nextLevelUI;
+    private GameObject spawnPoint;
 
-
-    // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("Player");
-
+        spawnPoint = GameObject.Find("SpawnPoint");
+        playerAtri = player.transform.Find("Character_Male_Rouge_01").gameObject.GetComponent<Player>();
+        characterController = player.transform.Find("Character_Male_Rouge_01").gameObject.GetComponent<CharacterController>();
+        playerUI = GameObject.Find("PlayerUI").GetComponent<Canvas>();
+        nextLevelUI = GameObject.Find("NextLevelUI").GetComponent<Canvas>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    //called if player hits button in canvas
     public void nextLevel()
     {
+        playerAtri.Difficulty += 1;
+        //Checks for any spawnable entities still left in scene
         chests = GameObject.FindGameObjectsWithTag("Chest");
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
         shopkeepers = GameObject.FindGameObjectsWithTag("Shopkeeper");
         traders = GameObject.FindGameObjectsWithTag("Trader");
         spawners = GameObject.FindGameObjectsWithTag("Spawner");
-        playerUI = GameObject.Find("PlayerUI").GetComponent<Canvas>();
-        nextLevelUI = GameObject.Find("NextLevelUI").GetComponent<Canvas>();
 
+        //Sends any left over entities to the object pool
         foreach (GameObject chest in chests)
         {
             chest.GetComponent<Chest>().resetThis();
@@ -57,15 +59,24 @@ public class NextLevelUI : MonoBehaviour
             trader.transform.Find("Character_Male_Wizard_01").GetComponent<Trader>().resetThis();
         }
 
+        //uses spawn() function at each spawner in the map
         foreach (GameObject spawner in spawners)
         {
             spawner.GetComponent<SpawnerBase>().spawn();
         }
 
         Debug.Log("Next Level");
-        player.transform.position = new Vector3((float)23.2463226, (float)-21.7536564, (float)-15.1050415);
         playerUI.enabled = true;
         nextLevelUI.enabled = false;
+
+        //resets player position to the start
+        player.SetActive(false);
+        characterController.enabled = false;
+        Debug.Log(player.transform.position);
+        player.transform.Find("Character_Male_Rouge_01").transform.position = spawnPoint.transform.position;
+        Debug.Log(player.transform.position);
+        characterController.enabled = true;
+        player.SetActive(true);
         Time.timeScale = 1f;
         //SceneManager.LoadScene("TempLevel");
     }

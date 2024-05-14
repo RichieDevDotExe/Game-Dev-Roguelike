@@ -19,7 +19,10 @@ public abstract class Modifers : ScriptableObject
 		set { modDescription = value; }
 	}
 
+    //This is used to generate what effect the mod will apply
     public abstract string generateModDesc(float modifierStrength = 0);
+
+    //applies mod effect to entity
     public abstract void applyMod(Entity target, float modifierStrength = 0);
 
 }

@@ -268,6 +268,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ef04e56ffcdd56445823ba10230925d3, type: 2}
   gold: {fileID: -3297276700566930290, guid: b0925a1a51716d04cae98931c7294c5e, type: 3}
   potion: {fileID: 9036920815516581467, guid: 6843e39edd3bb1545a6769aa181aa826, type: 3}
+  openChestSFX: {fileID: 8300000, guid: 1fdd8346384bf5a409760c239a13825b, type: 3}
 --- !u!136 &5170888210778540134
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -281,7 +282,7 @@ CapsuleCollider:
     m_Bits: 128
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0

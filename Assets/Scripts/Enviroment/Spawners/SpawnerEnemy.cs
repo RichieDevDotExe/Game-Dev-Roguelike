@@ -16,7 +16,7 @@ public class SpawnerEnemy : SpawnerBase
     private ObjectPool<GameObject> bossPool;
     private float RNG;
 
-    // Start is called before the first frame update
+    //generates object pool for enemy objects 
     void Start()
     {
         enemyPool = new ObjectPool<GameObject>(() =>
@@ -39,11 +39,13 @@ public class SpawnerEnemy : SpawnerBase
         spawn();
     }
 
+    //releases enemy 
     private void destEnemy(GameObject thisEnemy)
     {
         enemyPool.Release(thisEnemy);
     }
 
+    //spawns enemy. however the enemy has a chance to spawn in 
     public override void spawn()
     {
         RNG = Random.Range(0f, 1f);

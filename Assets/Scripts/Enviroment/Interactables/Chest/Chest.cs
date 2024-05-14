@@ -9,6 +9,7 @@ using static UnityEditor.Progress;
 
 public class Chest : InteractableObject
 {
+    //All items chest can spawn
     [SerializeField] private ChestLoot.ChestItem[] lootTable;
     private Animator animator;
 
@@ -23,8 +24,10 @@ public class Chest : InteractableObject
     private float dropChance;
     private float RNG;
     private Action<Chest> destroyThis;
+    [SerializeField] private AudioClip openChestSFX;
     public Animator Animator { get => animator; }
 
+    //Creates object pools for item drops from chest
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -67,10 +70,17 @@ public class Chest : InteractableObject
         
     }
 
+    //Interact Logic for chest
     public override void Interact()
     {
         Debug.Log("Opening Chest");
+        SoundFXManager.instance.playSoundEffect(openChestSFX, transform, 1f);
         animator.SetBool("ChestInteract",true);
+    }
+
+    public void Init()
+    {
+        animator.SetBool("ChestInteract", false);
     }
 
     private void chestDone()
@@ -85,6 +95,7 @@ public class Chest : InteractableObject
         destroyThis(this);
     }
 
+    //Generate and creates items in world
     public void generateLoot()
     {
         for (int i = 0; i < lootTable.Length; i++)
@@ -93,6 +104,7 @@ public class Chest : InteractableObject
             numbOfItems = UnityEngine.Random.Range(item.min, item.max);
             for(int j = 0; j < numbOfItems; j++)
             {
+                //each item instance has a drop chances for spawning. for each item check if RNG allows it to spawn
                 dropChance = item.dropChance;
                 RNG = UnityEngine.Random.Range(0f, 1f);
                 if(RNG <= dropChance)
@@ -114,6 +126,7 @@ public class Chest : InteractableObject
         }
     }
 
+    //Used for object pooling to remove Objects
     private void destItem(Items item)
     {
         if (item.ItemName == "Gold")
@@ -126,11 +139,13 @@ public class Chest : InteractableObject
         }
     }
 
+    //Used for object pooling to pass in remove function
     public void giveDestroy(Action<Chest> destroyFunct)
     {
         destroyThis = destroyFunct;
     }
 
+    //Used from the NextLevelUI class to reset the world and remove all traders from previous run.
     public void resetThis()
     {
         destroyThis(this);

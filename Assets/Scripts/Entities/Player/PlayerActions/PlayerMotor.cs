@@ -18,6 +18,8 @@ public class PlayerMotor : MonoBehaviour
     private Rigidbody rb;
     private float dodgeTimer;
     private Vector3 moveDirection;
+    private Player player;
+    private AudioClip dashSFX;
 
     [SerializeField]private float dashStrength;
     [SerializeField]private float dashCooldown;
@@ -30,6 +32,8 @@ public class PlayerMotor : MonoBehaviour
         animator = GetComponent<Animator>();
         mainCamera = Camera.main;
         rb = GetComponent<Rigidbody>();
+        player = GetComponent<Player>();
+        dashSFX = player.dashSFX;
     }
 
     // Update is called once per frame
@@ -78,11 +82,31 @@ public class PlayerMotor : MonoBehaviour
     }
 
 
-    public void dodgeMovement()
+    private void dodgeMovement()
     {
-       
-        rb.AddForce(transform.rotation*moveDirection * dashStrength,ForceMode.Impulse);
+        //rb.AddForce(transform.rotation*moveDirection * dashStrength,ForceMode.Impulse);
     }
+
+    public IEnumerator activateDodge()
+    {
+        Debug.Log("Time " + (Time.time - dodgeTimer) + " cooldown " + dashCooldown);
+        if ((Time.time - dodgeTimer) >= dashCooldown)
+        {
+            //dodgeMovement();
+            player.Hitbox.enabled = false;
+            SoundFXManager.instance.playSoundEffect(dashSFX, transform, 1f);
+            //player.Hitbox.excludeLayers = 1<<6;
+            rb.AddForce(transform.rotation * moveDirection * dashStrength, ForceMode.Impulse);
+            yield return new WaitForSeconds(0.5f);
+
+            //player.Hitbox.excludeLayers = 0;
+            player.Hitbox.enabled = true;
+            rb.angularVelocity = Vector3.zero;
+            rb.velocity = Vector3.zero;
+            dodgeTimer = Time.time;
+        }
+    }
+
 
     public float DodgeTimer
     {

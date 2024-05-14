@@ -6,6 +6,7 @@ using UnityEngine;
 public class ChestLoot : ScriptableObject
 {
     [CreateAssetMenu(menuName = "Item")]
+    //contains values for each item to handle chest spawning 
     public class ChestItem : ScriptableObject
     {
         [Header("Item Stats")]
@@ -15,6 +16,8 @@ public class ChestLoot : ScriptableObject
         [SerializeField] public float dropChance;
         [SerializeField] public GameObject model;
     }
+
+    //chest spawn inventory
     public ChestItem[] chestLoot;
 
 }

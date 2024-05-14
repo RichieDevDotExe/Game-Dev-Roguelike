@@ -5279,6 +5279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   traderOptions: {fileID: 11400000, guid: 41047e4aed5c3c9449e1726d055339e7, type: 2}
+  traderGreetingsSFX: {fileID: 8300000, guid: fc5032068613be34c9b4d4a164e21337, type: 3}
 --- !u!4 &1382456920599025312 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 455556, guid: aea27ca7a35042c419065833e8daf224,

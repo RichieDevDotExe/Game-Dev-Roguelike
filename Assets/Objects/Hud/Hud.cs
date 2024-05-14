@@ -27,10 +27,6 @@ public class Hud : MonoBehaviour
         set { goldAni = value; }
     }
 
-
-
-
-    // Start is called before the first frame update
     void Start()
     {
         hud = GetComponent<Canvas>();
@@ -41,12 +37,13 @@ public class Hud : MonoBehaviour
         potionDisplay = hud.gameObject.transform.Find("PotionCount").gameObject.GetComponent<TMP_Text>();
     }
 
-    // Update is called once per frame
+    //Updates player hud in real time
     void Update()
     {
         if (player != null)
         {
-            healthDisplay.text = player.EntityHealth.ToString();
+            healthDisplay.text = System.Math.Round(player.EntityHealth).ToString();
+            //heart on screen speeds up when player is low health. plays different heart animation too
             if (player.EntityHealth / player.EntityMaxHealth <= 0.3)
             {
                 healthAni.SetBool("lowHealth", true);

@@ -5,6 +5,8 @@ using System;
 
 public class EntityMechanics : ScriptableObject
 {
+    //Script not implemented
+
     Entity entity;
 
     [SerializeField] protected float savedHealth;

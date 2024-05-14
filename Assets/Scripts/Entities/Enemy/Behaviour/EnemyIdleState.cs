@@ -17,12 +17,14 @@ public class EnemyIdleState : EnemyBaseState
     public override void Perform()
     {
         IdleState();
+        //switches to chase state if player can be seen
         if (Enemy.CanSeePlayer() == true)
         {
             StateMachine.changeState(new EnemyChaseState());
         }
     }
 
+    //moves between set waypoints
     public void IdleState()
     {
         if(Enemy.Agent.remainingDistance < 0.2f)

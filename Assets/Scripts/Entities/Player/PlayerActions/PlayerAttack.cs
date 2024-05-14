@@ -7,6 +7,7 @@ public class PlayerAttack : MonoBehaviour
     [Header("Attack Hitbox")]
     private BoxCollider hitbox;
     [SerializeField] private LayerMask enemyLayers;
+    private AudioClip swordSwingFX;
     private Enemy enemy;
     private Player player;
     private Animator animator;
@@ -18,8 +19,10 @@ public class PlayerAttack : MonoBehaviour
 
     void Start()
     {
+        //script is attached to weapon in player prephab not player
         hitbox = GetComponent<BoxCollider>();
         player = GameObject.Find("Player").transform.Find("Character_Male_Rouge_01").GetComponent<Player>();
+        swordSwingFX = player.swordSwingSFX;
         animator = GameObject.Find("Player").transform.Find("Character_Male_Rouge_01").GetComponent<Animator>();
     }
 
@@ -41,27 +44,36 @@ public class PlayerAttack : MonoBehaviour
     //    }
     //}
 
+    //sets animator to attack and plays attack sound
     public void playerAttack()
     {
-        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("attack"))
-        { 
-            Debug.Log("attack");
-            StartCoroutine(activateHitBox());
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("RightHand@Attack01"))
+        {
+            animator.SetTrigger("isAttacking");
+            Debug.Log("Attack");
+            SoundFXManager.instance.playSoundEffect(swordSwingFX, transform, 1f);
         }
     }
 
-    private IEnumerator activateHitBox()
+    //called in animator
+    public void activateAttackHitBox()
     {
         if (Time.time - player.LastPlayerAttack >= player.AttackCooldown)
         {
+            player.EntitySpeed = 0f;
             player.LastPlayerAttack = Time.time;
             hitbox.enabled = true;
-            animator.SetTrigger("isAttacking");
-            yield return new WaitForSeconds(1.4f);
-            hitbox.enabled = false;
         }
     }
 
+    public void deactivateAttackHitBox()
+    {
+        hitbox.enabled = false;
+        player.EntitySpeed = 7;
+    }
+
+    //checks if enemy hits collider and deals damage
+    //Should be noted collider and script is found attached to the weapon the player prephab
     private void OnTriggerEnter(Collider other)
     {
         var enemy = other.gameObject.GetComponent<Enemy>();

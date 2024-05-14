@@ -42,11 +42,15 @@ public abstract class Entity : MonoBehaviour
         set { damage = value; }
     }
 
+    //logic for entity taking damage
     public abstract void entityTakeDamage(float damage);
 
+    //logic for entity dying
     protected abstract void entityDie();
 
+    //logic for entity attacking
     protected abstract void entityAttack();
 
+    //This needs to be here so the Hud UI can display the amount of gold the player hass
     public virtual int Gold { get; set; }
 }

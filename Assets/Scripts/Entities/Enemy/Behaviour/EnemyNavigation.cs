@@ -16,7 +16,7 @@ public class EnemyNavigation : MonoBehaviour
         enemy = GetComponent<Enemy>();
     }
 
-    // Update is called once per frame
+    //
     void Update()
     {
         agent.destination = playerLocation.position;

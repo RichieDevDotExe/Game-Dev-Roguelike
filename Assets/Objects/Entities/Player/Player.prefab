@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6378948384997263306}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.1593215, y: 8.215053, z: 18.301174}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -630,12 +630,17 @@ MonoBehaviour:
   maxHealth: 100
   speed: 5
   damage: 10
-  iFrames: 0
+  iFrames: 1
   modList: {fileID: 11400000, guid: b3fc4ae2c20c7434ea5a8df07d06ac50, type: 2}
   attackCooldown: 0
   potions: 0
   maxPotions: 3
   gold: 0
+  swordSwingSFX: {fileID: 8300000, guid: ea356a0b7a71e504e8989136217a5028, type: 3}
+  takeDamageSFX: {fileID: 8300000, guid: 2e82c49af5a975f418099d94e279874c, type: 3}
+  dashSFX: {fileID: 8300000, guid: e734ec68bf829944aa9e834f31d0d366, type: 3}
+  potionSFX: {fileID: 8300000, guid: d17c4ab7ffe9450418926ad31fd1188b, type: 3}
+  itemCollectSFX: {fileID: 8300000, guid: b1e132037ee7db34b94029adbdbf3b35, type: 3}
 --- !u!114 &5144493359363969497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -784,10 +789,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 970f657164f19bb478d09f31c06c31fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitbox: {fileID: 8339211336430036695}
-  hitBoxSize: {x: 0, y: 0, z: 0}
-  hitBoxOffsetX: 0
-  hitBoxOffsetY: 0
   enemyLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64

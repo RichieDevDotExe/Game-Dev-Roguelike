@@ -4,5 +4,6 @@ using UnityEngine;
 
 public abstract class SpawnerBase : MonoBehaviour
 {
+    //spawns object logic
     public abstract void spawn();
 }

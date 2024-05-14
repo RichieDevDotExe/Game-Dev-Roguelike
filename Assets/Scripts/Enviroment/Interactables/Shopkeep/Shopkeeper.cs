@@ -27,6 +27,8 @@ public class Shopkeeper : InteractableObject
     private TMP_Text offerDesc;
     private TMP_Text costDesc;
 
+    [SerializeField] private AudioClip shopkeeperGreetingsSFX;
+
     private Action<GameObject> destroyThis;
     private void Awake()
     {
@@ -49,12 +51,14 @@ public class Shopkeeper : InteractableObject
         }
     }
 
+    //Randomly generates a price
     private int genCost()
     {
         cost = Random.Range(40, 70);
         return cost;
     }
 
+    //Randomly generates a mod strength to pass into a mod
     private float genOfferPercent()
     {
         offerStrength = (float)System.Math.Round(Random.Range(1, 1.5f), 2);
@@ -62,14 +66,18 @@ public class Shopkeeper : InteractableObject
         return offerStrength;
     }
 
+    //activates animation when interacted with
     public void InteractStart()
     {
         shopkeeperAnimator.SetTrigger("interact");
     }
 
+    //Picks a random buff and generates a price
     public override void Interact()
     {
         Debug.Log("Trade?");
+        InteractStart();
+        SoundFXManager.instance.playSoundEffect(shopkeeperGreetingsSFX, transform, 1f);
         if (offer == null)
         {
             offer = shopkeeperInventory[Random.Range(0, shopkeeperInventory.Length)];
@@ -94,13 +102,18 @@ public class Shopkeeper : InteractableObject
         shopkeeperUI.enabled = true;
     }
 
+    //Trade Accepted Logic
     public void TradeAccepted()
     {
+        InteractStart();
         Debug.Log("Trade Accepted");
         //Debug.Log("x = "+ x);
         Time.timeScale = 1; 
         //Debug.Log("player gold = "+ player.Gold);
         //Debug.Log("cost of trade = "+ cost);
+        
+        //Needs to check if player has enough gold to buy the buff
+        //If has enough apply mod and then destroy object
         if (player.Gold >= cost)
         {
             //Debug.Log("trade accepted2");
@@ -111,24 +124,30 @@ public class Shopkeeper : InteractableObject
             shopkeeperUI.enabled = false;
             StartCoroutine(shopkeeperDest());
         }
+        //if not enough money. do nothing
         else 
         {
             playerUI.enabled = true;
             shopkeeperUI.enabled = false;
         }
     }
+
+    //Trade Reject Logic
     public void TradeRejecteded()
     {
+        InteractStart();
         Debug.Log("Trade Rejected");
         Time.timeScale = 1;
         playerUI.enabled = true;
         shopkeeperUI.enabled = false;
     }
 
+    //Used for object pooling to pass in remove function
     public void giveDestroy(Action<GameObject> destroyFunct)
     {
         destroyThis = destroyFunct;
     }
+
 
     IEnumerator shopkeeperDest()
     {
@@ -136,6 +155,7 @@ public class Shopkeeper : InteractableObject
         destroyThis(transform.parent.gameObject);
     }
 
+    //Used from the NextLevelUI class to reset the world and remove all traders from previous run.
     public void resetThis()
     {
         destroyThis(transform.parent.gameObject);

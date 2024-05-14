@@ -127,3 +127,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shopkeeperOptions: {fileID: 11400000, guid: 3f6d06d5bac604849b1d33ca9af9c98f, type: 2}
+  shopkeeperGreetingsSFX: {fileID: 8300000, guid: ed1e7fb4ebdabb74eb0097a2053cd837,
+    type: 3}

@@ -14,7 +14,7 @@ public class SpawnerShopkeeper : SpawnerBase
     private ObjectPool<GameObject> chestPool;
     private float RNG;
 
-    // Start is called before the first frame update
+    //generates object pool for trader objects 
     void Start()
     {
         chestPool = new ObjectPool<GameObject>(() =>
@@ -36,11 +36,13 @@ public class SpawnerShopkeeper : SpawnerBase
         spawn();
     }
 
+    //releases trader 
     private void destShopkeeper(GameObject thisTrader)
     {
         chestPool.Release(thisTrader);
     }
 
+    //spawns shopkeeper. however the shopkeeper has a chance to spawn in 
     public override void spawn()
     {
         RNG = Random.Range(0f, 1f);

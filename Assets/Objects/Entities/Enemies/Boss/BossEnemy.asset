@@ -21,4 +21,4 @@ MonoBehaviour:
   enemyCooldown: 0
   maxSpeed: 40
   chargeStrength: 5
-  iFrames: 1
+  iFrames: 2

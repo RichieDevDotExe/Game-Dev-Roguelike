@@ -12,7 +12,7 @@ public class SpawnerTrader : SpawnerBase
 
     private ObjectPool<GameObject> chestPool;
 
-    // Start is called before the first frame update
+    //generates object pool for trader objects 
     void Start()
     {
         chestPool = new ObjectPool<GameObject>(() =>
@@ -34,6 +34,7 @@ public class SpawnerTrader : SpawnerBase
         spawn();
     }
 
+    //releases trader 
     private void destTrader(GameObject thisTrader)
     {
         chestPool.Release(thisTrader);

@@ -14,6 +14,7 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] private float hitBoxOffsetY;
     private Items itemNav;
 
+    //checks if there is a interactable object 
     public void CanSeeInteractable()
     {
         Debug.Log("AttemptInteract");
@@ -25,6 +26,7 @@ public class PlayerInteraction : MonoBehaviour
         }
     }
 
+    //activates item drops if player is near items
     public void activateDrops()
     {
         //Debug.Log("collect item");
@@ -37,6 +39,7 @@ public class PlayerInteraction : MonoBehaviour
         }
     }
 
+    //item collider debug
     void OnDrawGizmosSelected()
     {
         if (hitbox == null)

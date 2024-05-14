@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ModHealth", menuName = "Modifiers/Health")]
 public class ModHealth : Modifers
 {
+    //Changes health value based on a % of max health
     public override void applyMod(Entity target, float modifierStrength)
     {
         if (modifierStrength < 1)
@@ -22,11 +23,11 @@ public class ModHealth : Modifers
     {
         if (modifierStrength < 1)
         {
-            modDescription = "Take " + (modifierStrength*100).ToString() + "% damage";
+            modDescription = "Take " + System.Math.Round(((1-modifierStrength)*100),2).ToString() + "% damage";
         }
         else
         {
-            modDescription = "Restore " + ((modifierStrength-1) * 100).ToString() + "% health";
+            modDescription = "Restore " + System.Math.Round(((modifierStrength-1) * 100),2).ToString() + "% health";
         }
         Debug.Log("Gen Desc");
         return modDescription;

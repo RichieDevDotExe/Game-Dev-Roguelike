@@ -12,7 +12,7 @@ public class SpawnerChests : SpawnerBase
     private ObjectPool<Chest> chestPool;
     private float RNG;
 
-    // Start is called before the first frame update
+    //generates object pool for enemy objects 
     void Start()
     {
         chestPool = new ObjectPool<Chest>(() =>
@@ -21,7 +21,7 @@ public class SpawnerChests : SpawnerBase
         }, chest =>
         {
             chest.gameObject.SetActive(true);
-            chest.Animator.SetBool("ChestInteract", false);
+            chest.Animator.Play("ChestNormal");
             chest.transform.position = transform.position;
             chest.transform.rotation = transform.rotation;
         }, chest =>
@@ -35,11 +35,13 @@ public class SpawnerChests : SpawnerBase
         spawn();
     }
 
+    //releases enemy 
     private void destChest(Chest thisChest)
     {
         chestPool.Release(thisChest);
     }
 
+    //spawns enemy. however the enemy has a chance to spawn in 
     public override void spawn()
     {
         RNG = Random.Range(0f, 1f);

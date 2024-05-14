@@ -14,14 +14,13 @@ public class Items : MonoBehaviour
     [SerializeField] private string itemName;
     private bool chasePlayer;
 
-    // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("Player");
         agent = GetComponent<NavMeshAgent>();
     }
 
-    // Update is called once per frame
+    //once a player has gotten into range of the item and activates it the item will then constantly try to get to the players position
     void Update()
     {
         if((chasePlayer == true) && (player != null) )
@@ -30,6 +29,7 @@ public class Items : MonoBehaviour
         }
     }
 
+    //Used for object pooling to pass in remove function
     public void giveDestroy(Action<Items> destroyFunct)
     {
         destroyThis = destroyFunct;
@@ -39,6 +39,7 @@ public class Items : MonoBehaviour
     {
         chasePlayer = true;
     }
+
 
     public void destroyItem()
     {

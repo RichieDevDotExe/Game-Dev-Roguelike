@@ -11,7 +11,6 @@ public class EnemyHealthBarManager : MonoBehaviour
     private Canvas canvas;
     private Camera camera;
 
-    // Start is called before the first frame update
     void Start()
     {
         enemy = GetComponent<Enemy>();
@@ -20,7 +19,7 @@ public class EnemyHealthBarManager : MonoBehaviour
         camera = GameObject.Find("MainCamera").GetComponent<Camera>();
     }
 
-    // Update is called once per frame
+    //updates canvas attached to enemy
     void Update()
     {
         healthPercent = enemy.EntityHealth / enemy.EntityMaxHealth;

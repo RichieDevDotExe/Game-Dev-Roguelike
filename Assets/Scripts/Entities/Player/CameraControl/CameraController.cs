@@ -7,6 +7,7 @@ public class CameraController : MonoBehaviour
 
     private Transform player;
     private Vector3 pos;
+    [Header("Camera settings")]
     [SerializeField] private float cameraSpeed;
     [SerializeField] private Vector3 offset;
     [SerializeField] private float followDistance;
@@ -18,6 +19,7 @@ public class CameraController : MonoBehaviour
         player = GameObject.Find("Player").transform.Find("Character_Male_Rouge_01").Find("Root").transform;
     }
 
+    //positions camera to hover over player position
     private void Update()
     {
         if (player != null)

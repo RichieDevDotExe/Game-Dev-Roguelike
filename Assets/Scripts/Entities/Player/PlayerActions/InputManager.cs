@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class InputManager : MonoBehaviour
 {
+    //Handles whats functions need to be executed when a button is pressed to control the player
 
     private PlayerActionMap playerInput; 
     private PlayerActionMap.PlayerActions playerActions;
@@ -38,8 +39,8 @@ public class InputManager : MonoBehaviour
     {
         playerMotor.ProcessMove(playerActions.Movement.ReadValue<Vector2>(),player.EntitySpeed);
         playerInteraction.activateDrops();
-        playerActions.Attack.performed += ctx => StartCoroutine(inputAttack());
-        playerActions.Dash.performed += ctx => StartCoroutine(activateDodge());
+        playerActions.Attack.performed += ctx => playerAttack.playerAttack();
+        playerActions.Dash.performed += ctx => StartCoroutine(playerMotor.activateDodge());
         playerActions.Interact.performed += ctx => playerInteraction.CanSeeInteractable();
         playerActions.Potion.performed += ctx => player.playerPotionHeal(); ;
         //move to game manager
@@ -60,22 +61,6 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    public IEnumerator activateDodge()
-    {
-        if ((Time.time - playerMotor.DodgeTimer) >= playerMotor.DashCooldown)
-        {
-            playerMotor.dodgeMovement();
-            //player.Hitbox.enabled = false;
-            player.Hitbox.excludeLayers = 1<<6;
-            yield return new WaitForSeconds(0.5f);
-
-            player.Hitbox.excludeLayers = 0;
-            //player.Hitbox.enabled = true;
-            playerMotor.RB.angularVelocity = Vector3.zero;
-            playerMotor.RB.velocity = Vector3.zero;
-            playerMotor.DodgeTimer = Time.time;
-        }
-    }
 
     private IEnumerator inputAttack()
     {
@@ -83,6 +68,18 @@ public class InputManager : MonoBehaviour
         playerAttack.playerAttack();
         yield return new WaitForSeconds(1);
         player.EntitySpeed = 7;
+    }
+
+    //called in animation event
+    private void swordHitboxActivate()
+    {
+        playerAttack.activateAttackHitBox();
+    }
+
+    //called in animation event
+    private void swordHitboxDeactivate()
+    {
+        playerAttack.deactivateAttackHitBox();
     }
 
     private void OnEnable()

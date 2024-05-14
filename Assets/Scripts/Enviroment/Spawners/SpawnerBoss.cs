@@ -11,7 +11,7 @@ public class SpawnerBoss : SpawnerBase
 
     private ObjectPool<GameObject> bossPool;
 
-    // Start is called before the first frame update
+    //generates object pool for enemy objects 
     void Start()
     {
         bossPool = new ObjectPool<GameObject>(() =>
@@ -34,11 +34,13 @@ public class SpawnerBoss : SpawnerBase
         spawn();
     }
 
+    //releases enemy 
     private void destEnemy(GameObject thisEnemy)
     {
         bossPool.Release(thisEnemy);
     }
 
+    //spawns enemy
     public override void spawn()
     {
         var itemSpawn = bossPool.Get();

@@ -20,8 +20,7 @@ public abstract class EnemyBaseState
     }
 
 
-
-    // Start is called before the first frame update
+    //different functions to be called when enemy enters, is currently and exiting the state
     public abstract void Enter();
     public abstract void Perform();
     public abstract void Exit();

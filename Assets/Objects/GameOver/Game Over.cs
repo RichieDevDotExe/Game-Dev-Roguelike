@@ -5,18 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class GameOver : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    //called on game over screen. loads scene again
     public void resetGame()
     {
         Debug.Log("resetting Level");

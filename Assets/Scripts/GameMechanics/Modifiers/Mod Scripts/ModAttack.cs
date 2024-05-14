@@ -5,6 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ModAttack", menuName = "Modifiers/Attack")]
 public class ModAttack : Modifers
 {
+    //Modifies Entity's attack value
+
     public override void applyMod(Entity target, float modifierStrength)
     {
         target.EntityDamage = target.EntityDamage * modifierStrength;
@@ -14,11 +16,11 @@ public class ModAttack : Modifers
     {
         if (modifierStrength > 1)
         {
-            modDescription = "Attack is increased by " + ((modifierStrength - 1) * 100).ToString() + "%";
+            modDescription = "Attack is increased by " + System.Math.Round(((modifierStrength - 1) * 100),2).ToString() + "%";
         }
         else
         {
-            modDescription = "Attack is reduced by " + ((1 - modifierStrength) * 100).ToString() + "%";
+            modDescription = "Attack is reduced by " + System.Math.Round(((1 - modifierStrength) * 100),2).ToString() + "%";
         }
         return modDescription;
     }

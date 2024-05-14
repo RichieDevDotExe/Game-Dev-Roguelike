@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Rendering;
 using static UnityEngine.Rendering.DebugUI;
+using Random = UnityEngine.Random;
 
 public class Enemy : Entity
 {
@@ -25,6 +26,13 @@ public class Enemy : Entity
     [SerializeField]private EnemyPath enemyPath;
     [SerializeField]private string currentState;
 
+    [Header("Enemy SFX Libary")]
+    [SerializeField] public AudioClip enemyAttackSFX;
+    [SerializeField] public AudioClip enemyReadyChargeSFX;
+    [SerializeField] public AudioClip enemyHitSFX;
+    [SerializeField] public AudioClip enemyDieSFX;
+
+
     [Header("Enemy Misc")]
     [SerializeField] private Player player;
 
@@ -43,10 +51,10 @@ public class Enemy : Entity
     public void Init()
     {
         Debug.Log("Init" + name);
-        maxHealth = enemySettings.MaxHealth;
+        maxHealth = enemySettings.MaxHealth *(1+(0.2f*player.Difficulty));
         health = maxHealth;
         speed = enemySettings.Speed;
-        damage = enemySettings.Damage;
+        damage = enemySettings.Damage * (1 + (0.2f * player.Difficulty));
         detectionRange = enemySettings.detectionRange;
         fieldOfView = enemySettings.fieldOfView;
         enemyAttackRange = enemySettings.AttackRange;
@@ -74,6 +82,7 @@ public class Enemy : Entity
         if (EntityHealth <= 0)
         {
             Debug.Log(transform.parent.name);
+            //if its the boss enemy trigger game over screen
             if (transform.parent.name == "BossMelee(Clone)")
             {
                 Time.timeScale = 0f;
@@ -104,6 +113,7 @@ public class Enemy : Entity
     {
         if (Time.time - iFrameStart >= iFrames)
         {
+            SoundFXManager.instance.playSoundEffect(enemyHitSFX,transform,1f);
             health -= damage;
             iFrameStart = Time.time;
         }
@@ -112,6 +122,7 @@ public class Enemy : Entity
     protected override void entityDie()
     {
         //Destroy(gameObject);
+        SoundFXManager.instance.playSoundEffect(enemyDieSFX, transform, 1f);
         destroyThis(transform.parent.gameObject);
     }
 
@@ -121,19 +132,25 @@ public class Enemy : Entity
     //convert to lamda?
     IEnumerator Charge()
     {
+        //wind ups a charge attack. changes animation to represent this state
         float saveSpeed = speed;
         agent.ResetPath();
         EntitySpeed = 0;
         enemyAnimator.SetBool("IsCharging", true);
         //Debug.Log("charging");
         //transform.Translate(move * enemySpeed * Time.deltaTime);
+        SoundFXManager.instance.playSoundEffect(enemyReadyChargeSFX, transform, 1f);
         yield return new WaitForSeconds(3);
+        //lunges at enemy
+        SoundFXManager.instance.playSoundEffect(enemyAttackSFX, transform, 1f);
         enemyAnimator.SetBool("IsCharging", false);
         enemyAnimator.SetBool("IsAttacking", true);
         enemyAnimator.speed = 3;
         //Debug.Log("Charged");
         hitbox.enabled = true;
         //transform.Find("Root").gameObject.
+
+        //sudden change in velocity is due to a addforce function directed in the players direction. Before add force happens it needs it cap the distance the enemy can lunge
         Vector3 forceCal = (player.transform.position - transform.position) * chargeStrength;
         if (forceCal.magnitude > maxSpeed)
         {
@@ -144,6 +161,7 @@ public class Enemy : Entity
         Vector3 targetDirection = player.transform.position;
         transform.LookAt(targetDirection);
         yield return new WaitForSeconds(0.5f);
+        //reset to default state
         enemyAnimator.SetBool("IsAttacking", false);
         enemyAnimator.speed = 1;
         //Debug.Log("attack done");
@@ -156,6 +174,7 @@ public class Enemy : Entity
         stateMachine.changeState(new EnemyIdleState());
     }
 
+    //checks if player is in field of view
     public bool CanSeePlayer()
     {
         if(player != null)
@@ -202,6 +221,7 @@ public class Enemy : Entity
         destroyThis = destroyFunct;
     }
 
+    //checks if enemy hits player
     private void OnTriggerEnter(Collider other)
     {
         var player = other.GetComponent<Player>();

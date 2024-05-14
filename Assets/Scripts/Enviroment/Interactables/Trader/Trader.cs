@@ -26,6 +26,8 @@ public class Trader : InteractableObject
     private TMP_Text buffDesc;
     private TMP_Text debuffDesc;
 
+    [SerializeField] private AudioClip traderGreetingsSFX;
+
     private Action<GameObject> destroyThis;
 
     private void Awake()
@@ -53,6 +55,7 @@ public class Trader : InteractableObject
         
     }
 
+    //Randomly generates a mod strength to pass into a mod
     private float genModStrengthPercent(bool isBuff)
     {
         if (isBuff) 
@@ -69,14 +72,19 @@ public class Trader : InteractableObject
         }
     }
 
+
+    //activates animation when interacted with
     public void InteractStart()
     {
         traderAnimator.SetTrigger("interact");
     }
 
+    //Picks a random buff and debuff from it's inventory
     public override void Interact()
     {
         Debug.Log("Trade?");
+        InteractStart();
+        SoundFXManager.instance.playSoundEffect(traderGreetingsSFX, transform, 1f);
         buff = traderInventory[Random.Range(0, traderInventory.Length)];
         debuff = traderInventory[Random.Range(0, traderInventory.Length)];
         while (buff.GetType() == debuff.GetType())
@@ -85,6 +93,7 @@ public class Trader : InteractableObject
         }
         //Debug.Log("buff = " + buff.GetType() + " debuff" + debuff.GetType());
 
+        //generates values used for both the debuffs and buffs
         debuffStrength = genModStrengthPercent(false);
         buffStrength = genModStrengthPercent(true);
 
@@ -106,25 +115,30 @@ public class Trader : InteractableObject
         traderUI.enabled = true;
     }
 
+    //Trade Accepted Logic
     public void TradeAccepted()
     {
         Debug.Log("Trade Accepted");
         Time.timeScale = 1;
+        InteractStart();
         buff.applyMod(player,buffStrength);
         debuff.applyMod(player, debuffStrength);
         playerUI.enabled = true;
         traderUI.enabled = false;
         StartCoroutine(traderDest());
     }
+    //Trade Rejected Logic
     public void TradeRejecteded()
     {
         Debug.Log("Trade Rejected");
         Time.timeScale = 1;
+        InteractStart();
         playerUI.enabled = true;
         traderUI.enabled = false;
         StartCoroutine(traderDest());
     }
 
+    //Used for object pooling to pass in remove function
     public void giveDestroy(Action<GameObject> destroyFunct)
     {
         destroyThis = destroyFunct;
@@ -136,6 +150,7 @@ public class Trader : InteractableObject
         destroyThis(transform.parent.gameObject);
     }
 
+    //Used from the NextLevelUI class to reset the world and remove all traders from previous run.
     public void resetThis()
     {
         destroyThis(transform.parent.gameObject);
