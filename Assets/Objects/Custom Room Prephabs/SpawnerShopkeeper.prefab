@@ -102,5 +102,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f308cffe4d92704cb462d855d20445c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trader: {fileID: 1180595677554468734, guid: 2739577dbdb94a94cb9af6012dc21ace, type: 3}
-  traderSpawnChance: 0.6
+  shopKeeper: {fileID: 1180595677554468734, guid: 2739577dbdb94a94cb9af6012dc21ace,
+    type: 3}
+  shopKeeperSpawnChance: 0.6

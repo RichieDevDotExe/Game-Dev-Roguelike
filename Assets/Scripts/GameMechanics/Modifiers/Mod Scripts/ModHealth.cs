@@ -10,7 +10,7 @@ public class ModHealth : Modifers
     {
         if (modifierStrength < 1)
         {
-            target.EntityHealth = target.EntityHealth - (target.EntityMaxHealth * modifierStrength);
+            target.EntityHealth = target.EntityHealth - (target.EntityMaxHealth * (Mathf.Abs(1-modifierStrength)));
         }
         else
         {
@@ -23,7 +23,7 @@ public class ModHealth : Modifers
     {
         if (modifierStrength < 1)
         {
-            modDescription = "Take " + System.Math.Round(((1-modifierStrength)*100),2).ToString() + "% damage";
+            modDescription = "Take " + System.Math.Round(((Mathf.Abs(1-modifierStrength))*100),2).ToString() + "% damage";
         }
         else
         {

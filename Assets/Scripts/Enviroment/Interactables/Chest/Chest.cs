@@ -10,7 +10,7 @@ using static UnityEditor.Progress;
 public class Chest : InteractableObject
 {
     //All items chest can spawn
-    [SerializeField] private ChestLoot.ChestItem[] lootTable;
+    [SerializeField] private ChestItem[] lootTable;
     private Animator animator;
 
 
@@ -20,6 +20,7 @@ public class Chest : InteractableObject
     [SerializeField] private Items potion;
     private ObjectPool<Items> potionPool;
 
+    private ChestItem item;
     private int numbOfItems;
     private float dropChance;
     private float RNG;
@@ -85,7 +86,7 @@ public class Chest : InteractableObject
 
     private void chestDone()
     {
-        StartCoroutine(chestDoneWait());
+        destroyThis(this);
     }
 
     IEnumerator chestDoneWait()
@@ -100,7 +101,7 @@ public class Chest : InteractableObject
     {
         for (int i = 0; i < lootTable.Length; i++)
         {
-            ChestLoot.ChestItem item = lootTable[i];
+            item = lootTable[i];
             numbOfItems = UnityEngine.Random.Range(item.min, item.max);
             for(int j = 0; j < numbOfItems; j++)
             {

@@ -79,11 +79,11 @@ public class Trader : InteractableObject
         traderAnimator.SetTrigger("interact");
     }
 
+
     //Picks a random buff and debuff from it's inventory
     public override void Interact()
     {
         Debug.Log("Trade?");
-        InteractStart();
         SoundFXManager.instance.playSoundEffect(traderGreetingsSFX, transform, 1f);
         buff = traderInventory[Random.Range(0, traderInventory.Length)];
         debuff = traderInventory[Random.Range(0, traderInventory.Length)];
@@ -125,7 +125,6 @@ public class Trader : InteractableObject
         debuff.applyMod(player, debuffStrength);
         playerUI.enabled = true;
         traderUI.enabled = false;
-        StartCoroutine(traderDest());
     }
     //Trade Rejected Logic
     public void TradeRejecteded()
@@ -135,7 +134,6 @@ public class Trader : InteractableObject
         InteractStart();
         playerUI.enabled = true;
         traderUI.enabled = false;
-        StartCoroutine(traderDest());
     }
 
     //Used for object pooling to pass in remove function
@@ -144,9 +142,9 @@ public class Trader : InteractableObject
         destroyThis = destroyFunct;
     }
 
-    IEnumerator traderDest()
+    public void traderDest()
     {
-        yield return new WaitForSeconds(1f);
+
         destroyThis(transform.parent.gameObject);
     }
 

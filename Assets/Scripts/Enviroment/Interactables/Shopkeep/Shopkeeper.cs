@@ -51,6 +51,12 @@ public class Shopkeeper : InteractableObject
         }
     }
 
+    //reset shopkeeper
+    public void Init()
+    {
+        offer = null;
+    }
+
     //Randomly generates a price
     private int genCost()
     {
@@ -76,7 +82,6 @@ public class Shopkeeper : InteractableObject
     public override void Interact()
     {
         Debug.Log("Trade?");
-        InteractStart();
         SoundFXManager.instance.playSoundEffect(shopkeeperGreetingsSFX, transform, 1f);
         if (offer == null)
         {
@@ -105,7 +110,6 @@ public class Shopkeeper : InteractableObject
     //Trade Accepted Logic
     public void TradeAccepted()
     {
-        InteractStart();
         Debug.Log("Trade Accepted");
         //Debug.Log("x = "+ x);
         Time.timeScale = 1; 
@@ -116,13 +120,13 @@ public class Shopkeeper : InteractableObject
         //If has enough apply mod and then destroy object
         if (player.Gold >= cost)
         {
+            InteractStart();
             //Debug.Log("trade accepted2");
             //Debug.Log("type " + offer.GetType());
             offer.applyMod(player, offerStrength);
             player.Gold = player.Gold - cost;
             playerUI.enabled = true;
             shopkeeperUI.enabled = false;
-            StartCoroutine(shopkeeperDest());
         }
         //if not enough money. do nothing
         else 
@@ -135,7 +139,6 @@ public class Shopkeeper : InteractableObject
     //Trade Reject Logic
     public void TradeRejecteded()
     {
-        InteractStart();
         Debug.Log("Trade Rejected");
         Time.timeScale = 1;
         playerUI.enabled = true;
@@ -149,9 +152,8 @@ public class Shopkeeper : InteractableObject
     }
 
 
-    IEnumerator shopkeeperDest()
+    public void shopkeeperDest()
     {
-        yield return new WaitForSeconds(1f);
         destroyThis(transform.parent.gameObject);
     }
 

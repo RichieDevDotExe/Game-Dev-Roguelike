@@ -737,6 +737,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SpawnerShopkeeper (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 3782363645486700790, guid: 7f905999673bb5c4dbde4e303311a52c,
+        type: 3}
+      propertyPath: shopKeeperSpawnChance
+      value: 0.6
+      objectReference: {fileID: 0}
     - target: {fileID: 8264917512915928055, guid: 7f905999673bb5c4dbde4e303311a52c,
         type: 3}
       propertyPath: m_RootOrder
@@ -11700,6 +11705,11 @@ PrefabInstance:
     - target: {fileID: 3782363645486700790, guid: 7f905999673bb5c4dbde4e303311a52c,
         type: 3}
       propertyPath: traderSpawnChance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3782363645486700790, guid: 7f905999673bb5c4dbde4e303311a52c,
+        type: 3}
+      propertyPath: shopKeeperSpawnChance
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8264917512915928055, guid: 7f905999673bb5c4dbde4e303311a52c,

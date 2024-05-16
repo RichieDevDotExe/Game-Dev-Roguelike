@@ -8,8 +8,8 @@ using Debug = UnityEngine.Debug;
 
 public class SpawnerShopkeeper : SpawnerBase
 {
-    [SerializeField] private GameObject trader;
-    [SerializeField] private float traderSpawnChance;
+    [SerializeField] private GameObject shopKeeper;
+    [SerializeField] private float shopKeeperSpawnChance;
 
     private ObjectPool<GameObject> chestPool;
     private float RNG;
@@ -19,18 +19,19 @@ public class SpawnerShopkeeper : SpawnerBase
     {
         chestPool = new ObjectPool<GameObject>(() =>
         {
-            return Instantiate(trader, transform.position, transform.rotation);
-        }, trader =>
+            return Instantiate(shopKeeper, transform.position, transform.rotation);
+        }, shopKeeper =>
         {
-            trader.gameObject.SetActive(true);
-            trader.transform.position = transform.position;
-            trader.transform.rotation = transform.rotation;
-        }, trader =>
+            shopKeeper.gameObject.SetActive(true);
+            shopKeeper.transform.Find("Character_Male_Wizard_01").GetComponent<Shopkeeper>().Init();
+            shopKeeper.transform.position = transform.position;
+            shopKeeper.transform.rotation = transform.rotation;
+        }, shopKeeper =>
         {
-            trader.gameObject.SetActive(false);
-        }, trader =>
+            shopKeeper.gameObject.SetActive(false);
+        }, shopKeeper =>
         {
-            Destroy(trader.gameObject);
+            Destroy(shopKeeper.gameObject);
         }, true, 1, 3);
 
         spawn();
@@ -46,7 +47,7 @@ public class SpawnerShopkeeper : SpawnerBase
     public override void spawn()
     {
         RNG = Random.Range(0f, 1f);
-        if (RNG > (1 - traderSpawnChance))
+        if (RNG > (1 - shopKeeperSpawnChance))
         {
             Debug.Log("Spawning - trader");
             var itemSpawn = chestPool.Get();

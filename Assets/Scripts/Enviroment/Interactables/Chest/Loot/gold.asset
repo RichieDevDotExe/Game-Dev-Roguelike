@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 8fc2d3f8c6c5cf6418cae6b825b7258f, type: 3}
   m_Name: gold
-  m_EditorClassIdentifier: Assembly-CSharp::ChestLoot/ChestItem
-  itemName: Gold
-  min: 3
-  max: 20
-  dropChance: 70
+  m_EditorClassIdentifier: 
+  itemName: gold
+  min: 20
+  max: 45
+  dropChance: 0.4
   model: {fileID: 6760333256613455118, guid: b0925a1a51716d04cae98931c7294c5e, type: 3}
