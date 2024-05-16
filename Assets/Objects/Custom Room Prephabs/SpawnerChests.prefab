@@ -108,4 +108,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chest: {fileID: 530628522316579259, guid: 6319c63ac9df0be489a7026096576a37, type: 3}
-  chestSpawnChance: 0.69
+  chestSpawnChance: 0.7

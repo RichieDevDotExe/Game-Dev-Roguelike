@@ -77,8 +77,6 @@ public class PlayerAttack : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         var enemy = other.gameObject.GetComponent<Enemy>();
-
-        
         if (enemy != null)
         {
             Debug.Log("Hit" + enemy.name);
